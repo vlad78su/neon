@@ -31,6 +31,7 @@
             </form>
 
             <div id="check-email-view" class="hidden">
+                <h2 id="email-confirm-heading" class="orange-heading">Проверьте почту!</h2>
                 <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
                     На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
                 </p>
@@ -56,6 +57,7 @@
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        // const PROXY = '...'; // УДАЛЕНО!
         
         // --- ЭЛЕМЕНТЫ UI ---
         const authForm = document.getElementById('auth-form');
@@ -73,7 +75,8 @@
         async function sb(endpoint, options = {}) {
             const url = SUPABASE_URL + endpoint;
             
-            return fetch(url, { // Прямой вызов fetch без прокси
+            // ПРЯМОЙ ВЫЗОВ FETCH
+            return fetch(url, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,7 +86,8 @@
             });
         }
 
-        // --- Функции управления видами ---
+        // ... (Функции showAuthView, showCheckEmailView, showSuccessView, init, toggleLink.addEventListener - без изменений) ...
+        
         function showAuthView(isLogin) {
             isLoginMode = isLogin;
             checkEmailView.classList.add('hidden');
@@ -128,7 +132,6 @@
             const accessToken = params.get('access_token');
             const type = params.get('type');
             
-            // Если мы получили токен после перехода по ссылке из почты
             if (accessToken && type === 'signup') {
                 localStorage.setItem('neon_token', accessToken);
                 showSuccessView();
@@ -149,8 +152,9 @@
             e.preventDefault();
             showAuthView(!isLoginMode);
         });
+
         
-        // --- Обработчики форм ---
+        // --- Обработчики форм (Используют sb) ---
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim();
@@ -168,6 +172,7 @@
             authButton.disabled = true;
 
             try {
+                // ИСПОЛЬЗУЕМ sb() для прямого запроса
                 const response = await sb(`/auth/v1/token?grant_type=password`, {
                     method: 'POST',
                     body: JSON.stringify({ email: email, password: password })
@@ -177,15 +182,14 @@
 
                 if (response.ok && data.access_token) {
                     localStorage.setItem('neon_token', data.access_token);
-                    console.log("Вход успешен! Перенаправление...");
+                    alert("Вход успешен!");
                     window.location.href = 'index.html';
                 } else {
-                    const errorMsg = data.error_description || data.msg || 'Неверный email или пароль.';
-                    alert("Ошибка входа: " + errorMsg);
+                    alert("Ошибка входа: " + (data.error_description || 'Неверный email, пароль или аккаунт не подтвержден.'));
                 }
             } catch (error) {
                 console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
-                alert("Ошибка сети. Проверьте консоль браузера (F12).");
+                alert("Ошибка сети. Проверьте консоль браузера (F12) и настройки CSP.");
             } finally {
                 authButton.disabled = false;
             }
@@ -195,6 +199,7 @@
             authButton.disabled = true;
 
             try {
+                // ИСПОЛЬЗУЕМ sb() для прямого запроса
                 const response = await sb(`/auth/v1/signup`, {
                     method: 'POST',
                     body: JSON.stringify({ 
@@ -210,7 +215,7 @@
 
                 if (response.ok) {
                     showCheckEmailView(email);
-                    // УДАЛЕНО: alert() с просьбой проверить почту
+                    alert(`Регистрация почти завершена! Проверьте свой email (${email}) и перейдите по ссылке для активации аккаунта.`);
                 } else {
                     alert("Ошибка регистрации: " + (data.msg || data.error));
                 }

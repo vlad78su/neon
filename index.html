@@ -33,6 +33,7 @@
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        // const PROXY = '...'; // УДАЛЕНО!
 
         const notesGrid = document.getElementById('notes-grid');
         const authLink = document.getElementById('auth-link');
@@ -42,12 +43,13 @@
         async function sb(endpoint, options = {}) {
             const url = SUPABASE_URL + endpoint;
             
+            // ПРЯМОЙ ВЫЗОВ FETCH
             return fetch(url, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
                     'apikey': ANON_KEY,
-                    'Authorization': options.headers?.Authorization || '',
+                    'Authorization': options.headers?.Authorization || '', // Сохраняем заголовок Authorization, если он есть
                     ...options.headers 
                 }
             });
@@ -67,11 +69,12 @@
             authLink.href = 'login.html';
         }
         
-        // 2. Функция загрузки заметок
+        // 2. Функция загрузки заметок (Использует sb)
         async function fetchNotes() {
             if (!token) return;
 
             try {
+                // ИСПОЛЬЗУЕМ sb() для прямого запроса
                 const response = await sb(`/rest/v1/notes?select=id,title,content`, {
                     method: 'GET',
                     headers: {

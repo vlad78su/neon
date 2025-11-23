@@ -34,6 +34,7 @@
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        // const PROXY = '...'; // УДАЛЕНО!
         
         document.getElementById('save-note-button').addEventListener('click', saveNote);
         
@@ -47,6 +48,7 @@
         async function sb(endpoint, options = {}) {
             const url = SUPABASE_URL + endpoint;
             
+            // ПРЯМОЙ ВЫЗОВ FETCH
             return fetch(url, {
                 ...options,
                 headers: {
@@ -57,7 +59,7 @@
             });
         }
 
-        // --- Функция сохранения заметки ---
+        // --- Функция сохранения заметки (Использует sb) ---
         async function saveNote(e) {
             e.preventDefault();
 
@@ -74,6 +76,7 @@
             saveButton.style.opacity = '0.7';
 
             try {
+                // ИСПОЛЬЗУЕМ sb() для прямого запроса
                 const response = await sb(`/rest/v1/notes`, {
                     method: 'POST',
                     headers: {
