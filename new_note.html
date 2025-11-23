@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neon - Новая Заметка</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -27,8 +27,9 @@
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
         const token = localStorage.getItem('neon_token');
+
         if (!token) {
-            alert('Для создания заметки необходимо войти.');
+            alert('Войдите в аккаунт');
             window.location.href = 'login.html';
         }
 
@@ -38,6 +39,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'apikey': ANON_KEY,
+                    'Authorization': `Bearer ${token}`,  // ← ЭТО БЫЛО ГЛАВНОЕ!
                     ...options.headers
                 }
             });
@@ -47,31 +49,39 @@
             e.preventDefault();
             const title = document.getElementById('note-title').value.trim();
             const content = document.getElementById('note-content').value.trim();
-            const btn = document.getElementById('save-note-button');
+            const btn = e.target;
+
             if (!title && !content) {
-                alert('Заметка не может быть пустой.');
+                alert('Заметка пустая');
                 return;
             }
+
             btn.textContent = 'Сохранение...';
+            btn.style.opacity = '0.7';
+
             try {
                 const res = await sb('/rest/v1/notes', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Prefer': 'return=representation'
                     },
-                    body: JSON.stringify({ title, content })
+                    body: JSON.stringify({ title: title || 'Без заголовка', content })
                 });
+
                 if (res.ok) {
-                    alert('Заметка успешно сохранена!');
+                    alert('Заметка сохранена!');
                     window.location.href = 'index.html';
                 } else {
+                    const err = await res.text();
+                    console.error(err);
                     alert('Ошибка сохранения');
                 }
             } catch (err) {
-                alert('Ошибка сети');
+                alert('Нет сети');
+            } finally {
+                btn.textContent = 'Сохранить';
+                btn.style.opacity = '1';
             }
-            btn.textContent = 'Сохранить';
         });
     </script>
 </body>
