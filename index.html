@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ШАПКА -->
     <div class="header">
         <h1 class="header-title">ваши заметки</h1>
         <a href="index.html" class="logo">Ne</a>
@@ -16,7 +15,6 @@
         </a>
     </div>
 
-    <!-- КОНТЕНТ -->
     <div class="content">
         <div class="notes-grid" id="notes-grid">
             <!-- Кнопка создания новой заметки -->
@@ -36,10 +34,10 @@
         const authText = document.getElementById('auth-text');
         const notesGrid = document.getElementById('notes-grid');
 
-        // === КНОПКА ВОЙТИ / ВЫЙТИ ===
+        // Кнопка входа / выхода
         if (token) {
             authText.textContent = 'выйти';
-            authBtn.onclick = e => {
+            authBtn.onclick = function(e) {
                 e.preventDefault();
                 localStorage.removeItem('neon_token');
                 location.reload();
@@ -49,28 +47,26 @@
             authText.textContent = 'войти в neon';
         }
 
-        // === ЗАГРУЗКА ЗАМЕТОК ===
+        // Загрузка заметок
         async function loadNotes() {
             if (!token) return;
 
             try {
-                const res = await fetch(SUPABASE_URL + '/rest/v1/notes?select=id,title,content', {
+                const response = await fetch(SUPABASE_URL + '/rest/v1/notes?select=id,title,content', {
                     headers: {
                         'apikey': ANON_KEY,
                         'Authorization': 'Bearer ' + token
                     }
                 });
 
-                if (res.status === 401) {
+                if (response.status === 401) {
                     localStorage.removeItem('neon_token');
-                    alert('Сессия истекла. Войдите заново.');
+                    alert('Сессия истекла. Пожалуйста, войдите снова.');
                     location.href = 'login.html';
                     return;
                 }
 
-                if (!res.ok) throw new Error('Ошибка загрузки');
-
-                const notes = await res.json();
+                const notes = await response.json();
 
                 notes.forEach(note => {
                     const card = document.createElement('div');
@@ -79,28 +75,28 @@
                         <h3>${note.title || 'Без заголовка'}</h3>
                         <p class="note-text">${note.content || ''}</p>
                     `;
-                    // При клике можно будет добавить редактирование (пока просто заглушка)
+                    // При клике по заметке можно будет потом открыть редактор
                     card.onclick = () => {
-                        alert('Редактирование будет в следующей версии :)');
+                        alert('Редактирование заметок появится в следующей версии :)');
                     };
                     notesGrid.appendChild(card);
                 });
 
             } catch (err) {
-                console.error(err);
+                console.error('Ошибка загрузки заметок:', err);
             }
         }
 
-        // === ЕСЛИ НЕ АВТОРИЗОВАН ===
+        // Если не авторизован — показать сообщение
         if (!token) {
-            const msg = document.createElement('p');
-            msg.textContent = 'Войдите в аккаунт, чтобы увидеть ваши заметки';
-            msg.style.color = '#aaa';
-            msg.style.gridColumn = '1 / -1';
-            msg.style.textAlign = 'center';
-            msg.style.marginTop = '80px';
-            msg.style.fontSize = '1.4rem';
-            notesGrid.appendChild(msg);
+            const message = document.createElement('p');
+            message.textContent = 'Войдите в аккаунт, чтобы увидеть ваши заметки';
+            message.style.color = '#aaa';
+            message.style.gridColumn = '1 / -1';
+            message.style.textAlign = 'center';
+            message.style.marginTop = '80px';
+            message.style.fontSize = '1.4rem';
+            notesGrid.appendChild(message);
         } else {
             loadNotes();
         }
