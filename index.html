@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neon - Ваши Заметки</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="header-bar">
         <h1 class="app-header-title">ваши заметки</h1>
         <a href="index.html" class="neon-logo">Ne</a>
-        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+        <a href="#" id="auth-link" class="right-button">
+            <span id="auth-text">войти в neon</span>
+        </a>
     </div>
 
     <div class="content-container">
@@ -25,52 +26,52 @@
 
     <script>
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeYZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        const token = localStorage.getItem('neon_token');
         const notesGrid = document.getElementById('notes-grid');
         const authLink = document.getElementById('auth-link');
-        const token = localStorage.getItem('neon_token');
+        const authText = document.getElementById('auth-text');
 
-        async function sb(endpoint, options = {}) {
-            return fetch(SUPABASE_URL + endpoint, {
-                ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': ANON_KEY,
-                    ...options.headers
-                }
-            });
-        }
-
+        // Кнопка входа/выхода
         if (token) {
-            authLink.textContent = 'выйти из neon';
-            authLink.href = '#';
-            authLink.addEventListener('click', (e) => {
+            authText.textContent = 'выйти';
+            authLink.onclick = e => {
                 e.preventDefault();
                 localStorage.removeItem('neon_token');
-                window.location.reload();
-            });
+                location.reload();
+            };
+        } else {
+            authLink.href = 'login.html';
+            authText.textContent = 'войти в neon';
         }
 
-        async function fetchNotes() {
+        // Загрузка заметок
+        async function loadNotes() {
             if (!token) return;
+
             try {
-                const res = await sb('/rest/v1/notes?select=id,title,content', {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                const res = await fetch(SUPABASE_URL + '/rest/v1/notes?select=id,title,content', {
+                    headers: {
+                        'apikey': ANON_KEY,
+                        'Authorization': 'Bearer ' + token
+                    }
                 });
+
                 if (res.status === 401) {
                     localStorage.removeItem('neon_token');
-                    alert('Сессия истекла. Войдите снова.');
-                    window.location.href = 'login.html';
+                    alert('Сессия истекла');
+                    location.href = 'login.html';
                     return;
                 }
+
                 const notes = await res.json();
                 notes.forEach(note => {
                     const el = document.createElement('div');
                     el.className = 'panel note-item';
-                    el.innerHTML = `<h3>${note.title || 'Без заголовка'}</h3><p class="note-text">${note.content || ''}</p>`;
-                    el.addEventListener('click', () => {
-                        alert('Редактирование заметок будет в следующей версии :)');
-                    });
+                    el.innerHTML = `
+                        <h3>${note.title || 'Без заголовка'}</h3>
+                        <p class="note-text">${note.content || ''}</p>
+                    `;
                     notesGrid.appendChild(el);
                 });
             } catch (err) {
@@ -78,15 +79,15 @@
             }
         }
 
-        if (token) {
-            fetchNotes();
-        } else {
+        if (token) loadNotes();
+        else {
             const msg = document.createElement('p');
-            msg.style.color = 'var(--color-text-light)';
-            msg.textContent = 'Пожалуйста, войдите в систему, чтобы увидеть ваши заметки.';
+            msg.textContent = 'Войдите, чтобы увидеть заметки';
+            msg.style.color = '#aaa';
             msg.style.gridColumn = '1 / -1';
             msg.style.textAlign = 'center';
-            msg.style.marginTop = '50px';
+            msg.style.marginTop = '60px';
+            msg.style.fontSize = '1.3em';
             notesGrid.appendChild(msg);
         }
     </script>
