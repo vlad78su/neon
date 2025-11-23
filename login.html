@@ -4,13 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neon - Войти/Регистрация</title>
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co;
-        script-src 'self' 'unsafe-inline';
-        style-src 'self' 'unsafe-inline';
-        img-src 'self' data:;
-    ">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,11 +17,20 @@
         <div class="panel login-form-panel">
             <h2 id="form-heading">Войти</h2>
            
-            <form id="auth-form">
-                <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
-                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
-                <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
-                <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
+            <form id="auth-form" novalidate>
+                <div class="form-group">
+                    <input type="email" id="auth-email" placeholder="email" required>
+                </div>
+                <!-- УБРАН required + добавлен data-required для JS-управления -->
+                <div class="form-group hidden" id="login-group">
+                    <input type="text" id="auth-login" placeholder="логин (имя пользователя)" data-required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="auth-password" placeholder="пароль" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="auth-button" class="neon-button">Войти</button>
+                </div>
             </form>
 
             <div id="check-email-view" class="hidden">
@@ -40,10 +43,8 @@
             <div id="success-view" class="hidden">
                 <h2 class="orange-heading">Регистрация успешно завершена</h2>
                 <p style="color:#fff; font-size:0.9em; margin:15px 0 25px; line-height:1.6;">
-                    Спасибо за регистрацию в Neon! Также вы можете скачать
-                    <a href="#" id="apps-link" class="app-link">наши приложения</a>
-                    почти для любого устройства.
-                p>
+                    Спасибо за регистрацию в Neon! Скоро будут приложения для всех версий Windows
+                </p>
                 <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
             </div>
            
@@ -59,97 +60,51 @@
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
 
         const authForm = document.getElementById('auth-form');
-        const checkEmailView = document.getElementById('check-email-view');
-        const successView = document.getElementById('success-view');
         const authButton = document.getElementById('auth-button');
-        const formHeading = document.getElementById('form-heading');
-        const toggleLink = document.getElementById('toggle-link');
         const loginGroup = document.getElementById('login-group');
-        const toggleSection = document.getElementById('toggle-section');
+        const loginInput = document.getElementById('auth-login');
 
         let isLoginMode = true;
 
         async function sb(endpoint, options = {}) {
             return fetch(SUPABASE_URL + endpoint, {
                 ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': ANON_KEY,
-                    ...options.headers
-                }
+                headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, ...options.headers }
             });
         }
 
         function showAuthView(isLogin) {
             isLoginMode = isLogin;
-            checkEmailView.classList.add('hidden');
-            successView.classList.add('hidden');
-            authForm.classList.remove('hidden');
-            toggleSection.classList.remove('hidden');
+            document.getElementById('form-heading').textContent = isLogin ? 'Войти' : 'Регистрация';
+            authButton.textContent = isLogin ? 'Войти' : 'Зарегистрироваться';
+            document.getElementById('toggle-link').textContent = isLogin ? 'Зарегистрируйтесь!' : 'Войти!';
+            document.getElementById('toggle-text').textContent = isLogin ? 'Ещё нет аккаунта в Neon?' : 'Уже есть аккаунт?';
+
             if (isLogin) {
-                formHeading.textContent = 'Войти';
-                authButton.textContent = 'Войти';
-                toggleLink.textContent = 'Зарегистрируйтесь!';
-                document.getElementById('toggle-text').textContent = 'Ещё нет аккаунта в Neon?';
                 loginGroup.classList.add('hidden');
+                loginInput.removeAttribute('required');
             } else {
-                formHeading.textContent = 'Регистрация';
-                authButton.textContent = 'Зарегистрироваться';
-                toggleLink.textContent = 'Войти!';
-                document.getElementById('toggle-text').textContent = 'Уже есть аккаунт?';
                 loginGroup.classList.remove('hidden');
+                loginInput.setAttribute('required', '');
             }
         }
 
-        function showCheckEmailView(email) {
-            document.getElementById('pending-email').textContent = email;
-            authForm.classList.add('hidden');
-            successView.classList.add('hidden');
-            checkEmailView.classList.remove('hidden');
-            toggleSection.classList.add('hidden');
-        }
-
-        function showSuccessView() {
-            authForm.classList.add('hidden');
-            checkEmailView.classList.add('hidden');
-            successView.classList.remove('hidden');
-            toggleSection.classList.add('hidden');
-        }
-
-        function init() {
-            const params = new URLSearchParams(window.location.hash.substring(1));
-            const accessToken = params.get('access_token');
-            const type = params.get('type');
-           
-            if (accessToken && type === 'signup') {
-                localStorage.setItem('neon_token', accessToken);
-                showSuccessView();
-            } else {
-                showAuthView(true);
-            }
-            document.getElementById('go-to-notes').addEventListener('click', () => {
-                window.location.href = 'index.html';
-            });
-            document.getElementById('apps-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('Страница приложений будет добавлена позже!');
-            });
-        }
-
-        toggleLink.addEventListener('click', (e) => {
+        document.getElementById('toggle-link').addEventListener('click', e => {
             e.preventDefault();
             showAuthView(!isLoginMode);
         });
 
-        authForm.addEventListener('submit', async (e) => {
+        authForm.addEventListener('submit', async e => {
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value;
             const login = document.getElementById('auth-login').value.trim();
 
             authButton.disabled = true;
-            if (isLoginMode) {
-                try {
+            authButton.textContent = isLoginMode ? 'Вход...' : 'Регистрация...';
+
+            try {
+                if (isLoginMode) {
                     const res = await sb('/auth/v1/token?grant_type=password', {
                         method: 'POST',
                         body: JSON.stringify({ email, password })
@@ -159,31 +114,43 @@
                         localStorage.setItem('neon_token', data.access_token);
                         window.location.href = 'index.html';
                     } else {
-                        alert('Ошибка входа: ' + (data.error_description || 'Неверный email или пароль'));
+                        alert('Ошибка: ' + (data.error_description || 'Неверные данные'));
                     }
-                } catch (err) {
-                    alert('Ошибка сети');
-                }
-            } else {
-                try {
+                } else {
                     const res = await sb('/auth/v1/signup', {
                         method: 'POST',
                         body: JSON.stringify({ email, password, data: { username: login } })
                     });
-                    const data = await res.json();
                     if (res.ok) {
-                        showCheckEmailView(email);
+                        document.getElementById('pending-email').textContent = email;
+                        document.getElementById('check-email-view').classList.remove('hidden');
+                        authForm.classList.add('hidden');
+                        document.getElementById('toggle-section').classList.add('hidden');
                     } else {
-                        alert('Ошибка регистрации: ' + (data.msg || data.error));
+                        const data = await res.json();
+                        alert('Ошибка: ' + (data.msg || 'Попробуйте другой email'));
                     }
-                } catch (err) {
-                    alert('Ошибка сети');
                 }
+            } catch (err) {
+                alert('Ошибка сети');
+            } finally {
+                authButton.disabled = false;
+                authButton.textContent = isLoginMode ? 'Войти' : 'Зарегистрироваться';
             }
-            authButton.disabled = false;
         });
 
-        init();
+        // Поддержка подтверждения email
+        const params = new URLSearchParams(window.location.hash.substring(1));
+        if (params.get('type') === 'signup' && params.get('access_token')) {
+            localStorage.setItem('neon_token', params.get('access_token'));
+            document.getElementById('success-view').classList.remove('hidden');
+            document.getElementById('auth-form').classList.add('hidden');
+            document.getElementById('toggle-section').classList.add('hidden');
+        }
+
+        document.getElementById('go-to-notes')?.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
     </script>
 </body>
 </html>
