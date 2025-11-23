@@ -1,252 +1,252 @@
 :root {
-    --color-background-dark: #0a0a0a;
-    --color-text-white: #f0f0f0;
-    --color-neon-orange: #ff6600;
-    --color-text-light: #aaa;
-    --color-panel-background: #1a1a1a;
-    --color-border-dark: #333;
+    --color-background-dark: #0a0a0a;
+    --color-text-white: #f0f0f0;
+    --color-neon-orange: #ff6600;
+    --color-text-light: #aaa;
+    --color-panel-background: #1a1a1a;
+    --color-border-dark: #333;
 }
 
 body {
-    background-color: var(--color-background-dark);
-    font-family: 'Arial', sans-serif;
-    color: var(--color-text-white);
-    margin: 0;
-    min-height: 100vh;
-    display: flex; /* Активируем Flexbox */
-    flex-direction: column; 
-    align-items: center;
-    justify-content: flex-start; /* Удерживаем шапку сверху */
+    background-color: var(--color-background-dark);
+    font-family: 'Arial', sans-serif;
+    color: var(--color-text-white);
+    margin: 0;
+    min-height: 100vh;
+    display: flex; /* Активируем Flexbox */
+    flex-direction: column; 
+    align-items: center;
+    justify-content: flex-start; /* Удерживаем шапку сверху */
 }
 
 /* Контейнер для верхних элементов (Заголовок и Лого) */
 .content-container {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
 }
 
 .app-header-title {
-    font-size: 1.5em;
-    color: var(--color-text-light);
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin: 0;
+    font-size: 1.5em;
+    color: var(--color-text-light);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
 }
 
 .neon-logo {
-    font-size: 2em;
-    font-weight: bold;
-    color: var(--color-neon-orange);
-    border: 2px solid var(--color-neon-orange);
-    padding: 5px 10px;
-    line-height: 1;
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--color-neon-orange);
+    border: 2px solid var(--color-neon-orange);
+    padding: 5px 10px;
+    line-height: 1;
 }
 
 .auth-link, .register-link, .app-link {
-    color: var(--color-neon-orange);
-    text-decoration: none;
-    font-size: 0.9em;
-    transition: color 0.2s;
+    color: var(--color-neon-orange);
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.2s;
 }
 
 .auth-link:hover, .register-link:hover, .app-link:hover {
-    color: #ff9933;
+    color: #ff9933;
 }
 
 /* Контейнер для центрирования формы входа */
 .login-center-container {
-    flex-grow: 1; /* Занимает оставшееся место */
-    display: flex;
-    align-items: center; /* Центрирование формы по вертикали */
-    justify-content: center;
-    width: 100%;
+    flex-grow: 1; /* Занимает оставшееся место */
+    display: flex;
+    align-items: center; /* Центрирование формы по вертикали */
+    justify-content: center;
+    width: 100%;
 }
 
 .panel {
-    background-color: var(--color-panel-background);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--color-border-dark);
-    box-sizing: border-box;
+    background-color: var(--color-panel-background);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--color-border-dark);
+    box-sizing: border-box;
 }
 
 .login-form-panel {
-    max-width: 380px; /* Фиксированная максимальная ширина */
-    width: 100%;
-    text-align: center;
+    max-width: 380px; /* Фиксированная максимальная ширина */
+    width: 100%;
+    text-align: center;
 }
 
 /* Формы и элементы ввода */
 #form-heading, .orange-heading {
-    color: var(--color-neon-orange);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 0;
-    margin-bottom: 25px;
+    color: var(--color-neon-orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 input[type="email"], input[type="password"], input[type="text"], textarea {
-    width: 100%;
-    padding: 12px 10px;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid var(--color-border-dark);
-    color: var(--color-text-white);
-    font-size: 1em;
-    box-sizing: border-box;
-    transition: border-bottom-color 0.3s;
+    width: 100%;
+    padding: 12px 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--color-border-dark);
+    color: var(--color-text-white);
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-bottom-color 0.3s;
 }
 
 input:focus, textarea:focus {
-    outline: none;
-    border-bottom-color: var(--color-neon-orange);
+    outline: none;
+    border-bottom-color: var(--color-neon-orange);
 }
 
 .neon-button {
-    width: 100%;
-    padding: 12px 20px;
-    background-color: var(--color-neon-orange);
-    color: var(--color-background-dark);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background-color 0.3s;
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--color-neon-orange);
+    color: var(--color-background-dark);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
 }
 
 .neon-button:hover:not(:disabled) {
-    background-color: #ff9933;
+    background-color: #ff9933;
 }
 
 .neon-button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
+    background-color: #555;
+    cursor: not-allowed;
 }
 
 .register-section {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: var(--color-text-light);
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--color-text-light);
 }
 
 .hidden {
-    display: none !important;
+    display: none !important;
 }
 
 /* Стили для заметок (index.html) */
 .notes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 600px;
-    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
 }
 
 .note-item {
-    padding: 20px;
-    text-align: left;
-    height: 150px; /* Фиксированная высота для единообразия */
-    overflow: hidden;
+    padding: 20px;
+    text-align: left;
+    height: 150px; /* Фиксированная высота для единообразия */
+    overflow: hidden;
 }
 
 .note-item h3 {
-    color: var(--color-neon-orange);
-    margin-top: 0;
-    font-size: 1.2em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: var(--color-neon-orange);
+    margin-top: 0;
+    font-size: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .note-text {
-    color: var(--color-text-light);
-    font-size: 0.9em;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 4; /* Ограничение в 4 строки */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: var(--color-text-light);
+    font-size: 0.9em;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Ограничение в 4 строки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .new-note-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 150px;
-    text-decoration: none;
-    border: 2px dashed var(--color-border-dark);
-    transition: border-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 150px;
+    text-decoration: none;
+    border: 2px dashed var(--color-border-dark);
+    transition: border-color 0.3s;
 }
 
 .new-note-panel:hover {
-    border-color: var(--color-neon-orange);
+    border-color: var(--color-neon-orange);
 }
 
 .plus-sign {
-    font-size: 3em;
-    color: var(--color-neon-orange);
-    line-height: 1;
+    font-size: 3em;
+    color: var(--color-neon-orange);
+    line-height: 1;
 }
 
 /* Стили для редактора (new_note.html) */
 .save-button {
-    position: absolute;
-    top: 25px;
-    right: 20px;
-    padding: 8px 15px;
-    background-color: var(--color-neon-orange);
-    color: var(--color-background-dark);
-    border-radius: 4px;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 0.9em;
-    transition: opacity 0.3s;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    padding: 8px 15px;
+    background-color: var(--color-neon-orange);
+    color: var(--color-background-dark);
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: opacity 0.3s;
 }
 
 .note-editor-title-panel {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    padding: 0 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 0 20px;
 }
 
 #note-title {
-    border-bottom: 2px solid var(--color-neon-orange);
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 5px 0;
+    border-bottom: 2px solid var(--color-neon-orange);
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 5px 0;
 }
 
 .note-editor-panel {
-    width: 100%;
-    max-width: 600px;
-    height: 500px;
-    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    height: 500px;
+    padding: 20px;
 }
 
 #note-content {
-    height: 100%;
-    border: none;
-    resize: none;
-    padding: 0;
-    line-height: 1.6;
+    height: 100%;
+    border: none;
+    resize: none;
+    padding: 0;
+    line-height: 1.6;
 }

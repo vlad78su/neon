@@ -1,228 +1,231 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon - Войти/Регистрация</title>
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co;
-        script-src 'self' 'unsafe-inline';
-        style-src 'self' 'unsafe-inline';
-        img-src 'self' data:;
-    ">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon - Войти/Регистрация</title>
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co;
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+    ">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content-container">
-        <h1 class="app-header-title">войти в neon</h1>
-        <div class="neon-logo">Ne</div>
-    </div>
-    
-    <div class="login-center-container">
-        <div class="panel login-form-panel">
-            <h2 id="form-heading">Войти</h2>
-            
-            <form id="auth-form">
-                <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
-                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
-                <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
-                <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
-            </form>
+    <div class="content-container">
+        <h1 class="app-header-title">войти в neon</h1>
+        <div class="neon-logo">Ne</div>
+    </div>
+    
+    <div class="login-center-container">
+        <div class="panel login-form-panel">
+            <h2 id="form-heading">Войти</h2>
+            
+            <form id="auth-form">
+                <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
+                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
+                <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
+                <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
+            </form>
 
-            <div id="check-email-view" class="hidden">
-                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
-                    На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
-                </p>
-            </div>
-            <div id="success-view" class="hidden">
-                <h2 class="orange-heading">Регистрация успешно завершена</h2>
-                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; line-height: 1.6;">
-                    Спасибо за регистрацию в Neon! Также вы можете скачать 
-                    <a href="#" id="apps-link" class="app-link">наши приложения</a> 
-                    почти для любого устройства.
-                </p>
-                <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
-            </div>
-            
-            <div class="register-section" id="toggle-section">
-                <span id="toggle-text">Ещё нет аккаунта в Neon?</span>
-                <a href="#" id="toggle-link" class="register-link">Зарегистрируйтесь!</a>
-            </div>
-        </div>
-    </div>
+            <div id="check-email-view" class="hidden">
+                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
+                    На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
+                </p>
+            </div>
+            <div id="success-view" class="hidden">
+                <h2 class="orange-heading">Регистрация успешно завершена</h2>
+                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; line-height: 1.6;">
+                    Спасибо за регистрацию в Neon! Также вы можете скачать 
+                    <a href="#" id="apps-link" class="app-link">наши приложения</a> 
+                    почти для любого устройства.
+                </p>
+                <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
+            </div>
+            
+            <div class="register-section" id="toggle-section">
+                <span id="toggle-text">Ещё нет аккаунта в Neon?</span>
+                <a href="#" id="toggle-link" class="register-link">Зарегистрируйтесь!</a>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // --- КОНФИГУРАЦИЯ ---
-        const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
-        
-        // --- ЭЛЕМЕНТЫ UI ---
-        const authForm = document.getElementById('auth-form');
-        const checkEmailView = document.getElementById('check-email-view');
-        const successView = document.getElementById('success-view');
-        const authButton = document.getElementById('auth-button');
-        const formHeading = document.getElementById('form-heading');
-        const toggleLink = document.getElementById('toggle-link');
-        const loginGroup = document.getElementById('login-group');
-        const toggleSection = document.getElementById('toggle-section');
-        
-        let isLoginMode = true;
+    <script>
+        // --- КОНФИГУРАЦИЯ ---
+        const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        
+        // --- ЭЛЕМЕНТЫ UI ---
+        const authForm = document.getElementById('auth-form');
+        const checkEmailView = document.getElementById('check-email-view');
+        const successView = document.getElementById('success-view');
+        const authButton = document.getElementById('auth-button');
+        const formHeading = document.getElementById('form-heading');
+        const toggleLink = document.getElementById('toggle-link');
+        const loginGroup = document.getElementById('login-group');
+        const toggleSection = document.getElementById('toggle-section');
+        
+        let isLoginMode = true;
 
-        // --- УНИВЕРСАЛЬНАЯ ФУНКЦИЯ (ПРЯМОЙ FETCH) ---
-        async function sb(endpoint, options = {}) {
-            const url = SUPABASE_URL + endpoint;
-            
-            return fetch(url, { // Прямой вызов fetch без прокси
-                ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': ANON_KEY,
-                    ...options.headers
+        // --- УНИВЕРСАЛЬНАЯ ФУНКЦИЯ (ПРЯМОЙ FETCH) ---
+        async function sb(endpoint, options = {}) {
+            const url = SUPABASE_URL + endpoint;
+            
+            return fetch(url, { // Прямой вызов fetch без прокси
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': ANON_KEY,
+                    ...options.headers
+                }
+            });
+        }
+
+        // --- Функции управления видами ---
+        function showAuthView(isLogin) {
+            isLoginMode = isLogin;
+            checkEmailView.classList.add('hidden');
+            successView.classList.add('hidden');
+            authForm.classList.remove('hidden');
+            toggleSection.classList.remove('hidden');
+
+            if (isLogin) {
+                formHeading.textContent = 'Войти';
+                authButton.textContent = 'Войти';
+                toggleLink.textContent = 'Зарегистрируйтесь!';
+                document.getElementById('toggle-text').textContent = 'Ещё нет аккаунта в Neon?';
+                loginGroup.classList.add('hidden');
+            } else {
+                formHeading.textContent = 'Регистрация';
+                authButton.textContent = 'Зарегистрироваться';
+                toggleLink.textContent = 'Войти!';
+                document.getElementById('toggle-text').textContent = 'Уже есть аккаунт?';
+                loginGroup.classList.remove('hidden');
+            }
+        }
+        
+        function showCheckEmailView(email) {
+            formHeading.textContent = 'Проверьте почту!';
+            document.getElementById('pending-email').textContent = email;
+            authForm.classList.add('hidden');
+            successView.classList.add('hidden');
+            checkEmailView.classList.remove('hidden');
+            toggleSection.classList.add('hidden');
+        }
+
+        function showSuccessView() {
+            formHeading.textContent = 'Успех!';
+            authForm.classList.add('hidden');
+            checkEmailView.classList.add('hidden');
+            successView.classList.remove('hidden');
+            toggleSection.classList.add('hidden');
+        }
+
+        function init() {
+            const params = new URLSearchParams(window.location.hash.substring(1));
+            const accessToken = params.get('access_token');
+            const type = params.get('type');
+            
+            // Если мы получили токен после перехода по ссылке из почты
+            if (accessToken && type === 'signup') {
+                localStorage.setItem('neon_token', accessToken);
+                showSuccessView();
+            } else {
+                showAuthView(true);
+            }
+
+            document.getElementById('go-to-notes').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+            document.getElementById('apps-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                // Удалил alert: alert('Страница приложений будет добавлена позже!');
+            });
+        }
+
+        toggleLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAuthView(!isLoginMode);
+        });
+        
+        // --- Обработчики форм ---
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+            const login = document.getElementById('auth-login').value.trim();
+
+            if (isLoginMode) {
+                await handleLogin(email, password);
+            } else {
+                await handleSignUp(email, password, login);
+            }
+        });
+
+        async function handleLogin(email, password) {
+            authButton.disabled = true;
+
+            try {
+                const response = await sb(`/auth/v1/token?grant_type=password`, {
+                    method: 'POST',
+                    body: JSON.stringify({ email: email, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.access_token) {
+                    localStorage.setItem('neon_token', data.access_token);
+                    console.log("Вход успешен! Перенаправление...");
+                    window.location.href = 'index.html';
+                } else if (data.msg === 'Email not confirmed') {
+                    // Исправление: Если email не подтвержден, сообщаем об этом
+                    alert("Ошибка входа: Email не подтвержден. Проверьте почту.");
                 }
-            });
-        }
+                 else {
+                    const errorMsg = data.error_description || data.msg || 'Неверный email или пароль.';
+                    alert("Ошибка входа: " + errorMsg);
+                }
+            } catch (error) {
+                console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
+                alert("Ошибка сети. Проверьте консоль браузера (F12).");
+            } finally {
+                authButton.disabled = false;
+            }
+        }
 
-        // --- Функции управления видами ---
-        function showAuthView(isLogin) {
-            isLoginMode = isLogin;
-            checkEmailView.classList.add('hidden');
-            successView.classList.add('hidden');
-            authForm.classList.remove('hidden');
-            toggleSection.classList.remove('hidden');
+        async function handleSignUp(email, password, login) {
+            authButton.disabled = true;
 
-            if (isLogin) {
-                formHeading.textContent = 'Войти';
-                authButton.textContent = 'Войти';
-                toggleLink.textContent = 'Зарегистрируйтесь!';
-                document.getElementById('toggle-text').textContent = 'Ещё нет аккаунта в Neon?';
-                loginGroup.classList.add('hidden');
-            } else {
-                formHeading.textContent = 'Регистрация';
-                authButton.textContent = 'Зарегистрироваться';
-                toggleLink.textContent = 'Войти!';
-                document.getElementById('toggle-text').textContent = 'Уже есть аккаунт?';
-                loginGroup.classList.remove('hidden');
-            }
-        }
-        
-        function showCheckEmailView(email) {
-            formHeading.textContent = 'Проверьте почту!';
-            document.getElementById('pending-email').textContent = email;
-            authForm.classList.add('hidden');
-            successView.classList.add('hidden');
-            checkEmailView.classList.remove('hidden');
-            toggleSection.classList.add('hidden');
-        }
+            try {
+                const response = await sb(`/auth/v1/signup`, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        email: email, 
+                        password: password,
+                        data: {
+                            username: login
+                        }
+                    })
+                });
 
-        function showSuccessView() {
-            formHeading.textContent = 'Успех!';
-            authForm.classList.add('hidden');
-            checkEmailView.classList.add('hidden');
-            successView.classList.remove('hidden');
-            toggleSection.classList.add('hidden');
-        }
+                const data = await response.json();
 
-        function init() {
-            const params = new URLSearchParams(window.location.hash.substring(1));
-            const accessToken = params.get('access_token');
-            const type = params.get('type');
-            
-            // Если мы получили токен после перехода по ссылке из почты
-            if (accessToken && type === 'signup') {
-                localStorage.setItem('neon_token', accessToken);
-                showSuccessView();
-            } else {
-                showAuthView(true);
-            }
+                if (response.ok) {
+                    showCheckEmailView(email);
+                } else {
+                    alert("Ошибка регистрации: " + (data.msg || data.error));
+                }
+            } catch (error) {
+                console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
+                alert("Ошибка сети. Убедитесь, что CSP настроен правильно.");
+            } finally {
+                authButton.disabled = false;
+            }
+        }
 
-            document.getElementById('go-to-notes').addEventListener('click', () => {
-                window.location.href = 'index.html';
-            });
-            document.getElementById('apps-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('Страница приложений будет добавлена позже!');
-            });
-        }
-
-        toggleLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAuthView(!isLoginMode);
-        });
-        
-        // --- Обработчики форм ---
-        authForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value.trim();
-            const password = document.getElementById('auth-password').value;
-            const login = document.getElementById('auth-login').value.trim();
-
-            if (isLoginMode) {
-                await handleLogin(email, password);
-            } else {
-                await handleSignUp(email, password, login);
-            }
-        });
-
-        async function handleLogin(email, password) {
-            authButton.disabled = true;
-
-            try {
-                const response = await sb(`/auth/v1/token?grant_type=password`, {
-                    method: 'POST',
-                    body: JSON.stringify({ email: email, password: password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.access_token) {
-                    localStorage.setItem('neon_token', data.access_token);
-                    console.log("Вход успешен! Перенаправление...");
-                    window.location.href = 'index.html';
-                } else {
-                    const errorMsg = data.error_description || data.msg || 'Неверный email или пароль.';
-                    alert("Ошибка входа: " + errorMsg);
-                }
-            } catch (error) {
-                console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
-                alert("Ошибка сети. Проверьте консоль браузера (F12).");
-            } finally {
-                authButton.disabled = false;
-            }
-        }
-
-        async function handleSignUp(email, password, login) {
-            authButton.disabled = true;
-
-            try {
-                const response = await sb(`/auth/v1/signup`, {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        email: email, 
-                        password: password,
-                        data: {
-                            username: login
-                        }
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showCheckEmailView(email);
-                    // УДАЛЕНО: alert() с просьбой проверить почту
-                } else {
-                    alert("Ошибка регистрации: " + (data.msg || data.error));
-                }
-            } catch (error) {
-                console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
-                alert("Ошибка сети. Убедитесь, что CSP настроен правильно.");
-            } finally {
-                authButton.disabled = false;
-            }
-        }
-
-        init();
-    </script>
+        init();
+    </script>
 </body>
 </html>
