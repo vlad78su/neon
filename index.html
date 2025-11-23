@@ -29,7 +29,9 @@
                 
                 </div>
         </div>
-    </div> <script>
+    </div> 
+
+    <script>
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
@@ -97,7 +99,7 @@
                 const notes = await response.json();
                 
                 // 4. Отрисовка заметок
-                // Очищаем существующую разметку перед добавлением новых
+                // Очищаем существующую разметку и добавляем кнопку "Создать заметку"
                 notesGrid.innerHTML = `
                     <a href="new_note.html" class="panel new-note-panel">
                         <h3>Создать заметку</h3>

@@ -16,25 +16,24 @@ body {
     color: var(--color-text-white);
     margin: 0;
     min-height: 100vh;
-    /* УДАЛЕНО: display: flex и центрирование всего body, чтобы сохранить оригинальный дизайн */
 }
 
-/* Контейнер для центрирования всего содержимого на странице */
+/* Обертка для центрирования всего содержимого на странице */
 .main-wrapper {
     width: 100%;
-    max-width: 640px; /* Немного увеличена ширина для лучшего вида */
+    max-width: 640px; 
     margin-left: auto;
     margin-right: auto;
     padding: 0 20px;
     box-sizing: border-box;
 }
 
-/* Контейнер для верхних элементов (Заголовок, Лого, Кнопка) */
+/* Шапка: Выравнивание заголовка, лого и ссылки */
 .content-container {
     padding: 20px 0;
     display: flex;
-    justify-content: space-between; /* Распределяем элементы по краям */
-    align-items: center; /* Выравнивание по вертикали (ОДНА ВЫСОТА) */
+    justify-content: space-between;
+    align-items: center; /* Выравнивание по вертикали (на одной высоте) */
     position: relative;
     z-index: 10;
 }
@@ -84,8 +83,8 @@ body {
 .login-center-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Начинаем сверху, а не по центру экрана */
-    padding-top: 50px; /* Отступ от шапки */
+    align-items: flex-start;
+    padding-top: 50px;
     width: 100%;
 }
 
@@ -130,7 +129,7 @@ body {
     box-shadow: none;
 }
 
-/* Остальные стили */
+/* Остальные стили для форм */
 #form-heading, .orange-heading {
     color: var(--color-neon-orange);
     text-transform: uppercase;
@@ -205,7 +204,7 @@ input:focus, textarea:focus {
     justify-content: center;
     text-align: center;
     height: 150px;
-    text-decoration: none; /* Убираем подчеркивание */
+    text-decoration: none;
     border: 2px dashed var(--color-border-dark);
     transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -219,7 +218,7 @@ input:focus, textarea:focus {
     font-size: 3em;
     color: var(--color-neon-orange);
     line-height: 1;
-    text-decoration: none; /* Убираем подчеркивание у "+" */
+    text-decoration: none;
 }
 
 /* Стили для редактора (new_note.html) */
