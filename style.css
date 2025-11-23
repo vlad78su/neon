@@ -1,346 +1,252 @@
-/* Переменные для удобства */
 :root {
-    --color-neon-orange: #fd681a;
-    --color-background: #000000;
-    --color-panel-bg: #1c1c1c; /* Темно-серый для панелей */
-    --color-text-white: #ffffff;
-    --color-text-light: #aaaaaa; /* Более светлый для плейсхолдеров/дополнительной информации */
+    --color-background-dark: #0a0a0a;
+    --color-text-white: #f0f0f0;
+    --color-neon-orange: #ff6600;
+    --color-text-light: #aaa;
+    --color-panel-background: #1a1a1a;
+    --color-border-dark: #333;
 }
-
-/* =================================================
-   Шрифты 
-   =================================================
-*/
-
-@font-face {
-    font-family: 'Neon-App-Light';
-    src: local('Segoe UI Light'), local('Segoe UI Semilight'), local('Arial'); 
-    font-weight: 300;
-}
-
-@font-face {
-    font-family: 'Neon-App-Semibold';
-    src: local('SF Pro Display Semibold'), local('Arial Black'), local('Arial');
-    font-weight: 600;
-}
-
-@font-face {
-    font-family: 'Neon-App-Regular';
-    src: local('SF Pro Display Regular'), local('Segoe UI'), local('Arial');
-    font-weight: 400;
-}
-
-
-/* =================================================
-   Основные стили 
-   =================================================
-*/
 
 body {
-    background-color: var(--color-background);
+    background-color: var(--color-background-dark);
+    font-family: 'Arial', sans-serif;
     color: var(--color-text-white);
     margin: 0;
-    padding: 0;
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
+    display: flex; /* Активируем Flexbox */
+    flex-direction: column; 
+    align-items: center;
+    justify-content: flex-start; /* Удерживаем шапку сверху */
 }
 
-/* Элемент, который гарантированно скрыт */
+/* Контейнер для верхних элементов (Заголовок и Лого) */
+.content-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.app-header-title {
+    font-size: 1.5em;
+    color: var(--color-text-light);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.neon-logo {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--color-neon-orange);
+    border: 2px solid var(--color-neon-orange);
+    padding: 5px 10px;
+    line-height: 1;
+}
+
+.auth-link, .register-link, .app-link {
+    color: var(--color-neon-orange);
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.2s;
+}
+
+.auth-link:hover, .register-link:hover, .app-link:hover {
+    color: #ff9933;
+}
+
+/* Контейнер для центрирования формы входа */
+.login-center-container {
+    flex-grow: 1; /* Занимает оставшееся место */
+    display: flex;
+    align-items: center; /* Центрирование формы по вертикали */
+    justify-content: center;
+    width: 100%;
+}
+
+.panel {
+    background-color: var(--color-panel-background);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--color-border-dark);
+    box-sizing: border-box;
+}
+
+.login-form-panel {
+    max-width: 380px; /* Фиксированная максимальная ширина */
+    width: 100%;
+    text-align: center;
+}
+
+/* Формы и элементы ввода */
+#form-heading, .orange-heading {
+    color: var(--color-neon-orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="email"], input[type="password"], input[type="text"], textarea {
+    width: 100%;
+    padding: 12px 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--color-border-dark);
+    color: var(--color-text-white);
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-bottom-color 0.3s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-bottom-color: var(--color-neon-orange);
+}
+
+.neon-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--color-neon-orange);
+    color: var(--color-background-dark);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.neon-button:hover:not(:disabled) {
+    background-color: #ff9933;
+}
+
+.neon-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+.register-section {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--color-text-light);
+}
+
 .hidden {
     display: none !important;
 }
 
-/* Общий заголовок приложения (верхний левый угол) - строчный */
-.app-header-title {
-    font-family: 'Neon-App-Light', 'Segoe UI Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-neon-orange);
-    font-size: 3.5em; 
-    font-weight: 300;
-    margin-bottom: 20px;
-    text-transform: lowercase; 
-}
-
-.neon-logo {
-    color: var(--color-neon-orange);
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 3.5em;
-    font-weight: 600;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-.auth-link {
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-neon-orange);
-    font-size: 1.2em;
-    font-weight: 400;
-    position: absolute;
-    top: 50px;
-    right: 120px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.content-container {
-    padding: 40px;
-    flex-grow: 1;
-}
-
-.panel {
-    background-color: var(--color-panel-bg);
-    border-radius: 5px;
-    padding: 20px;
-    box-sizing: border-box;
-    transition: transform 0.2s;
-}
-
-.panel:hover {
-    transform: translateY(-2px);
-}
-
-/* =================================================
-   Стили для index.html (Список заметок)
-   =================================================
-*/
-
+/* Стили для заметок (index.html) */
 .notes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
 }
 
 .note-item {
-    cursor: pointer;
-    height: 180px; 
-    display: flex;
-    flex-direction: column;
+    padding: 20px;
+    text-align: left;
+    height: 150px; /* Фиксированная высота для единообразия */
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .note-item h3 {
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--color-neon-orange);
-    font-size: 1.3em;
-    font-weight: 600;
     margin-top: 0;
-    margin-bottom: 10px;
+    font-size: 1.2em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .note-text {
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-text-white);
+    color: var(--color-text-light);
     font-size: 0.9em;
-    font-weight: 400;
-    margin: 0;
-    overflow: hidden;
+    line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 4; /* Ограничение в 4 строки */
     -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .new-note-panel {
-    height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    text-align: center;
+    height: 150px;
+    text-decoration: none;
+    border: 2px dashed var(--color-border-dark);
+    transition: border-color 0.3s;
 }
 
-.new-note-panel h3 {
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-neon-orange);
-    font-size: 1.3em;
-    font-weight: 600;
-    margin-bottom: 10px;
+.new-note-panel:hover {
+    border-color: var(--color-neon-orange);
 }
 
-.new-note-panel .plus-sign {
+.plus-sign {
+    font-size: 3em;
     color: var(--color-neon-orange);
-    font-size: 4em;
     line-height: 1;
 }
 
-/* =================================================
-   Стили для login.html (Вход/Регистрация/Успех)
-   =================================================
-*/
-
-.login-center-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    padding: 40px;
-}
-
-.login-form-panel {
-    width: 350px;
-    padding: 40px 30px;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-/* Заголовки форм (Войти, Регистрация) */
-.login-form-panel h2 {
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-neon-orange);
-    font-size: 1.5em;
-    font-weight: 400;
-    margin-bottom: 30px;
-    text-transform: capitalize; 
-}
-
-/* Общий стиль для оранжевых заголовков и текста в футере */
-.orange-heading {
-    color: var(--color-neon-orange);
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.5em;
-}
-
-.orange-text {
-    color: var(--color-neon-orange);
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px 0;
-    background: none;
-    border: none;
-    border-bottom: 1px solid var(--color-text-light);
-    color: var(--color-text-white);
-    font-size: 1em;
-    outline: none;
-    text-align: center;
-}
-
-.form-group input::placeholder {
-    color: var(--color-text-light);
-    opacity: 1;
-}
-
-/* Общий стиль для оранжевых кнопок */
-.neon-button {
-    width: 100%;
-    padding: 12px;
+/* Стили для редактора (new_note.html) */
+.save-button {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    padding: 8px 15px;
     background-color: var(--color-neon-orange);
-    color: var(--color-background); /* Черный текст на оранжевом */
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    cursor: pointer;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    margin-top: 10px;
-    text-transform: capitalize; 
-}
-
-.register-section {
-    margin-top: 40px;
+    color: var(--color-background-dark);
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
     font-size: 0.9em;
-    color: var(--color-text-white);
-    text-align: center; 
-    display: block; 
+    transition: opacity 0.3s;
 }
-
-.register-link {
-    color: var(--color-neon-orange);
-    text-decoration: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    margin-left: 5px;
-    cursor: pointer;
-    text-transform: capitalize; 
-}
-
-/* Ссылка приложений, используемая в окне успешной регистрации */
-.app-link {
-    color: var(--color-neon-orange);
-    text-decoration: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-
-/* =================================================
-   Стили для new_note.html (Создание заметки)
-   =================================================
-*/
 
 .note-editor-title-panel {
-    background-color: var(--color-panel-bg);
-    border-radius: 5px 5px 0 0;
-    padding: 15px 20px;
-    margin-bottom: 0;
-}
-
-.note-editor-title-panel input {
     width: 100%;
-    background: none;
-    border: none;
-    color: var(--color-neon-orange);
-    font-size: 1.3em;
-    outline: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
+    max-width: 600px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 0 20px;
 }
 
-.note-editor-title-panel input::placeholder {
-    color: var(--color-neon-orange);
-    opacity: 0.7;
-    text-transform: lowercase; 
+#note-title {
+    border-bottom: 2px solid var(--color-neon-orange);
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 5px 0;
 }
 
 .note-editor-panel {
-    height: 600px; 
-    padding: 20px;
-    border-radius: 0 0 5px 5px;
-    margin-top: 0;
-}
-
-.note-editor-panel textarea {
     width: 100%;
+    max-width: 600px;
+    height: 500px;
+    padding: 20px;
+}
+
+#note-content {
     height: 100%;
-    background: none;
     border: none;
-    color: var(--color-text-white);
-    font-size: 1em;
-    outline: none;
     resize: none;
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 400;
-    box-sizing: border-box;
-}
-
-.note-editor-panel textarea::placeholder {
-    color: var(--color-text-light);
-    opacity: 1;
-    text-transform: lowercase; 
-}
-
-/* Кнопка "Сохранить" */
-.save-button {
-    position: absolute;
-    top: 50px;
-    right: 120px;
-    background-color: var(--color-neon-orange);
-    color: var(--color-background);
-    padding: 8px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
+    padding: 0;
+    line-height: 1.6;
 }
