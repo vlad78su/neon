@@ -13,24 +13,34 @@
     </div>
 
     <div class="login-container">
-        <div class="panel login-panel">
+        <div class="panel login-panel" id="login-form">
             <h2 id="heading">Войти</h2>
             <form id="form" novalidate>
                 <div class="form-group">
                     <input type="email" id="email" placeholder="email" required>
                 </div>
                 <div class="form-group hidden" id="login-group">
-                    <input type="text" id="login" placeholder="логин">
+                    <input type="text" id="login" placeholder="логин (имя пользователя)">
                 </div>
                 <div class="form-group">
                     <input type="password" id="pass" placeholder="пароль" required>
                 </div>
                 <button type="submit" class="neon-button" id="btn">Войти</button>
             </form>
-            <p style="margin-top:30px">
+            <p style="margin-top:40px; font-size:1.1rem;">
                 <span id="toggle-text">Нет аккаунта?</span>
-                <a href="#" id="toggle" style="color:var(--neon);font-weight:600">Зарегистрируйтесь!</a>
+                <a href="#" id="toggle" style="color:var(--neon); font-weight:600; text-decoration:none;">Зарегистрируйтесь!</a>
             </p>
+        </div>
+
+        <!-- Красивое окно после регистрации -->
+        <div class="panel success-panel hidden" id="success-box">
+            <h2>Спасибо за регистрацию!</h2>
+            <p>Спасибо за регистрацию на <strong>Neon</strong>!</p>
+            <p>Пожалуйста, перейдите по проверочной ссылке из письма, отправленного на вашу почту: <span class="email" id="reg-email"></span></p>
+            <p>Если вы не видите письма — проверьте папку «Спам».</p>
+            <p>Также приложения Neon доступны почти на всех устройствах.</p>
+            <button class="neon-button" onclick="location.href='index.html'">Понятно</button>
         </div>
     </div>
 
@@ -40,19 +50,17 @@
 
         let isLogin = true;
         const form = document.getElementById('form');
-        const btn = document.getElementById('btn');
-        const heading = document.getElementById('heading');
-        const toggle = document.getElementById('toggle');
-        const loginGroup = document.getElementById('login-group');
+        const loginBox = document.getElementById('login-form');
+        const successBox = document.getElementById('success-box');
 
-        toggle.onclick = e => {
+        document.getElementById('toggle').onclick = e => {
             e.preventDefault();
             isLogin = !isLogin;
-            heading.textContent = isLogin ? 'Войти' : 'Регистрация';
-            btn.textContent = isLogin ? 'Войти' : 'Зарегистрироваться';
-            toggle.textContent = isLogin ? 'Зарегистрируйтесь!' : 'Войти!';
+            document.getElementById('heading').textContent = isLogin ? 'Войти' : 'Регистрация';
+            document.getElementById('btn').textContent = isLogin ? 'Войти' : 'Зарегистрироваться';
+            document.getElementById('toggle').textContent = isLogin ? 'Зарегистрируйтесь!' : 'Войти!';
             document.getElementById('toggle-text').textContent = isLogin ? 'Нет аккаунта?' : 'Уже есть аккаунт?';
-            loginGroup.classList.toggle('hidden');
+            document.getElementById('login-group').classList.toggle('hidden');
         };
 
         form.onsubmit = async e => {
@@ -61,8 +69,7 @@
             const pass = document.getElementById('pass').value;
             const login = document.getElementById('login').value.trim();
 
-            btn.disabled = true;
-            btn.textContent = 'Подождите...';
+            document.getElementById('btn').disabled = true;
 
             try {
                 if (isLogin) {
@@ -75,18 +82,23 @@
                     if (d.access_token) {
                         localStorage.setItem('neon_token', d.access_token);
                         location.href = 'index.html';
-                    } else alert('Неверные данные');
+                    } else {
+                        alert('Неверный email или пароль');
+                    }
                 } else {
                     await fetch(URL + '/auth/v1/signup', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', apikey: KEY },
                         body: JSON.stringify({ email, password: pass, data: { username: login } })
                     });
-                    alert('Проверьте почту и перейдите по ссылке');
+                    document.getElementById('reg-email').textContent = email;
+                    loginBox.classList.add('hidden');
+                    successBox.classList.remove('hidden');
                 }
-            } catch { alert('Ошибка сети'); }
-            btn.disabled = false;
-            btn.textContent = isLogin ? 'Войти' : 'Зарегистрироваться';
+            } catch {
+                alert('Ошибка сети');
+            }
+            document.getElementById('btn').disabled = false;
         };
     </script>
 </body>

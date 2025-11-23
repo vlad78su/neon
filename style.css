@@ -1,16 +1,14 @@
 :root {
     --neon: #fd681a;
-    --bg: #000000;
+    --bg: #000;
     --panel: #1c1c1c;
-    --text: #ffffff;
-    --gray: #aaaaaa;
+    --text: #fff;
+    --gray: #aaa;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    margin: 0;
-    padding: 0;
     background: var(--bg);
     color: var(--text);
     font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -21,104 +19,100 @@ body {
 
 .hidden { display: none !important; }
 
-/* === ВЕРХНЯЯ ПАНЕЛЬ — ВСЁ РОВНО, НИЧЕГО НЕ НАЕЗЖАЕТ === */
+/* === ШАПКА === */
 .header {
-    padding: 40px 60px;
     position: relative;
+    padding: 50px 70px;
     height: 140px;
     display: flex;
     align-items: center;
 }
 
 .header-title {
+    position: absolute;
+    left: 70px;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 3.5rem;
     font-weight: 300;
     color: var(--neon);
-    margin: 0;
     text-transform: lowercase;
-    position: absolute;
-    left: 60px;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 .logo {
     position: absolute;
-    right: 220px;
+    right: 240px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--neon);
     font-size: 3.5rem;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.35s ease;
 }
 
 .action-btn {
     position: absolute;
-    right: 60px;
+    right: 70px;
     top: 50%;
     transform: translateY(-50%);
     background: var(--neon);
     color: #000;
-    padding: 12px 28px;
-    border-radius: 8px;
+    padding: 12px 30px;
+    border-radius: 10px;
     font-size: 1.3rem;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.35s ease;
 }
 
-/* НЕОН + ПОДЁМ ВВЕРХ */
+/* === МЯГКИЙ НЕОН + ПОДЪЁМ НА 5–6% === */
 .logo:hover,
 .action-btn:hover,
 .new-note-panel:hover,
 .note-item:hover,
-.neon-button:hover {
-    color: white !important;
-    text-shadow: 0 0 12px var(--neon), 0 0 25px var(--neon);
-    transform: translateY(-50%) translateY(-7px) !important;
+.neon-button:hover,
+.panel:hover:not(.login-panel):not(.title-panel):not(.editor-panel) {
+    transform: translateY(-50%) translateY(-6px) !important;
+    text-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon);
 }
 
 .action-btn:hover,
 .neon-button:hover {
     background: #e55a00;
+    color: white;
 }
 
-/* Контент */
+/* === КОНТЕНТ === */
 .content {
     flex: 1;
-    padding: 0 60px 60px;
+    padding: 0 70px 70px;
 }
 
 .panel {
     background: var(--panel);
-    border-radius: 12px;
-    padding: 24px;
-    transition: transform 0.3s ease;
-}
-
-.panel:hover:not(.login-panel):not(.title-panel):not(.editor-panel) {
-    transform: translateY(-7px);
+    border-radius: 14px;
+    padding: 28px;
+    transition: transform 0.35s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 .notes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 28px;
+    gap: 30px;
     margin-top: 30px;
 }
 
 .note-item {
-    height: 210px;
+    height: 220px;
     cursor: pointer;
-    padding: 4px 0;
 }
 
 .note-item h3 {
     color: var(--neon);
-    font-size: 1.4rem;
-    margin: 0 0 14px 0;
+    font-size: 1.45rem;
+    margin-bottom: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -136,7 +130,7 @@ body {
 .new-note-panel h3 {
     color: var(--neon);
     font-size: 1.5rem;
-    margin: 0 0 16px 0;
+    margin-bottom: 16px;
 }
 
 .plus {
@@ -145,7 +139,7 @@ body {
     font-weight: 100;
 }
 
-/* Форма входа — вернул старую красивую */
+/* === КРАСИВАЯ ФОРМА ВХОДА === */
 .login-container {
     flex: 1;
     display: flex;
@@ -154,31 +148,36 @@ body {
 }
 
 .login-panel {
-    width: 380px;
-    padding: 60px 50px;
+    width: 400px;
+    padding: 70px 55px;
     text-align: center;
-    border-radius: 16px;
+    border-radius: 20px;
+    transition: transform 0.35s ease;
+}
+
+.login-panel:hover {
+    transform: translateY(-8px);
 }
 
 .login-panel h2 {
     color: var(--neon);
-    font-size: 2rem;
-    margin-bottom: 40px;
+    font-size: 2.1rem;
+    margin-bottom: 50px;
     font-weight: 400;
 }
 
 .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .form-group input {
     width: 100%;
-    padding: 14px 0;
+    padding: 16px 0;
     background: none;
     border: none;
     border-bottom: 2px solid #666;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     text-align: center;
     outline: none;
     transition: 0.3s;
@@ -190,25 +189,41 @@ body {
 
 .neon-button {
     width: 100%;
-    padding: 16px;
+    padding: 18px;
     background: var(--neon);
     color: black;
     border: none;
-    border-radius: 10px;
-    font-size: 1.3rem;
+    border-radius: 12px;
+    font-size: 1.35rem;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 15px;
+    transition: all 0.35s ease;
 }
 
-/* Редактор */
-.title-panel input {
-    font-size: 1.7rem;
+/* === ОКНО ПОСЛЕ РЕГИСТРАЦИИ === */
+.success-panel {
+    width: 500px;
+    padding: 60px 50px;
+    text-align: center;
+    background: var(--panel);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(253, 104, 26, 0.2);
+}
+
+.success-panel h2 {
+    color: var(--neon);
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+}
+
+.success-panel p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.success-panel .email {
     color: var(--neon);
     font-weight: 600;
-}
-
-.editor-panel textarea {
-    font-size: 1.1rem;
-    line-height: 1.7;
 }
