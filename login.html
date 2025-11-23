@@ -16,7 +16,8 @@
 <body>
     <div class="content-container">
         <h1 class="app-header-title">войти в neon</h1>
-        <div class="neon-logo">Ne</div>
+        <div class="neon-logo" id="neon-logo">Ne</div> 
+        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
     </div>
     
     <div class="login-center-container">
@@ -66,6 +67,7 @@
         const toggleLink = document.getElementById('toggle-link');
         const loginGroup = document.getElementById('login-group');
         const toggleSection = document.getElementById('toggle-section');
+        const neonLogo = document.getElementById('neon-logo');
         
         let isLoginMode = true;
 
@@ -73,7 +75,7 @@
         async function sb(endpoint, options = {}) {
             const url = SUPABASE_URL + endpoint;
             
-            return fetch(url, { // Прямой вызов fetch без прокси
+            return fetch(url, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
@@ -128,6 +130,11 @@
             const accessToken = params.get('access_token');
             const type = params.get('type');
             
+            // Клик по логотипу перенаправляет на index.html
+            neonLogo.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+
             // Если мы получили токен после перехода по ссылке из почты
             if (accessToken && type === 'signup') {
                 localStorage.setItem('neon_token', accessToken);
@@ -180,12 +187,14 @@
                     console.log("Вход успешен! Перенаправление...");
                     window.location.href = 'index.html';
                 } else {
-                    const errorMsg = data.error_description || data.msg || 'Неверный email или пароль.';
+                    // Улучшенный вывод ошибки
+                    const errorMsg = data.error_description || data.msg || data.error || 'Неверный email, пароль или аккаунт не подтвержден.';
+                    console.error("Ошибка входа (Supabase):", data);
                     alert("Ошибка входа: " + errorMsg);
                 }
             } catch (error) {
                 console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
-                alert("Ошибка сети. Проверьте консоль браузера (F12).");
+                alert("Ошибка сети. Проверьте консоль браузера (F12) и настройки CSP.");
             } finally {
                 authButton.disabled = false;
             }
@@ -210,7 +219,6 @@
 
                 if (response.ok) {
                     showCheckEmailView(email);
-                    // УДАЛЕНО: alert() с просьбой проверить почту
                 } else {
                     alert("Ошибка регистрации: " + (data.msg || data.error));
                 }

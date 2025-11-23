@@ -16,7 +16,7 @@
 <body>
     <div class="content-container">
         <h1 class="app-header-title">ваши заметки</h1>
-        <div class="neon-logo">Ne</div>
+        <div class="neon-logo" id="neon-logo">Ne</div> 
         <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
 
         <div class="notes-grid" id="notes-grid">
@@ -36,6 +36,7 @@
 
         const notesGrid = document.getElementById('notes-grid');
         const authLink = document.getElementById('auth-link');
+        const neonLogo = document.getElementById('neon-logo');
         const token = localStorage.getItem('neon_token');
 
         // --- УНИВЕРСАЛЬНАЯ ФУНКЦИЯ (ПРЯМОЙ FETCH) ---
@@ -66,8 +67,13 @@
             authLink.textContent = 'войти в neon';
             authLink.href = 'login.html';
         }
+
+        // 2. Клик по логотипу перенаправляет на index.html
+        neonLogo.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
         
-        // 2. Функция загрузки заметок
+        // 3. Функция загрузки заметок
         async function fetchNotes() {
             if (!token) return;
 
@@ -90,7 +96,7 @@
 
                 const notes = await response.json();
                 
-                // 3. Отрисовка заметок
+                // 4. Отрисовка заметок
                 notes.forEach(note => {
                     const noteElement = document.createElement('div');
                     noteElement.className = 'panel note-item';
