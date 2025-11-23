@@ -3,10 +3,9 @@
     --bg: #000;
     --panel: #1c1c1c;
     --text: #fff;
-    --gray: #aaa;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin:0; padding:0; }
 
 body {
     background: var(--bg);
@@ -17,15 +16,11 @@ body {
     flex-direction: column;
 }
 
-.hidden { display: none !important; }
-
 /* === ШАПКА === */
 .header {
     position: relative;
     padding: 50px 70px;
     height: 140px;
-    display: flex;
-    align-items: center;
 }
 
 .header-title {
@@ -58,29 +53,37 @@ body {
     transform: translateY(-50%);
     background: var(--neon);
     color: #000;
-    padding: 12px 30px;
-    border-radius: 10px;
+    padding: 12px 32px;
+    border-radius: 12px;
     font-size: 1.3rem;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.35s ease;
 }
 
-/* === МЯГКИЙ НЕОН + ПОДЪЁМ НА 5–6% === */
+/* === КРАСИВЫЙ НЕОН + МЯГКИЙ ПОДЪЁМ НА 6px === */
 .logo:hover,
 .action-btn:hover,
 .new-note-panel:hover,
 .note-item:hover,
 .neon-button:hover,
+.panel:hover:not(.login-panel):not(.title-panel):not(.editor-panel):not(.success-panel) {
+    transform: translateY(-50%) translateY(-6px) !important;   /* для кнопок */
+    text-shadow: 0 0 12px var(--neon), 0 0 28px var(--neon);
+}
+
+.logo:hover { transform: translateY(calc(-50% - 6px)) !important; }
+.new-note-panel:hover,
+.note-item:hover,
 .panel:hover:not(.login-panel):not(.title-panel):not(.editor-panel) {
-    transform: translateY(-50%) translateY(-6px) !important;
-    text-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon);
+    transform: translateY(-6px) !important;   /* для карточек */
 }
 
 .action-btn:hover,
 .neon-button:hover {
     background: #e55a00;
     color: white;
+    text-shadow: 0 0 12px var(--neon), 0 0 28px var(--neon);
 }
 
 /* === КОНТЕНТ === */
@@ -91,42 +94,32 @@ body {
 
 .panel {
     background: var(--panel);
-    border-radius: 14px;
-    padding: 28px;
+    border-radius: 16px;
+    padding: 30px;
     transition: transform 0.35s ease;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.6);
 }
 
 .notes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    gap: 32px;
+    margin-top: 32px;
 }
 
-.note-item {
+.note-item,
+.new-note-panel {
     height: 220px;
     cursor: pointer;
-}
-
-.note-item h3 {
-    color: var(--neon);
-    font-size: 1.45rem;
-    margin-bottom: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.new-note-panel {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-decoration: none;
     color: inherit;
 }
 
+.note-item h3,
 .new-note-panel h3 {
     color: var(--neon);
     font-size: 1.5rem;
@@ -135,95 +128,66 @@ body {
 
 .plus {
     color: var(--neon);
-    font-size: 5.5rem;
+    font-size: 6rem;
     font-weight: 100;
 }
 
-/* === КРАСИВАЯ ФОРМА ВХОДА === */
-.login-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-panel {
-    width: 400px;
-    padding: 70px 55px;
+/* === ФОРМА ВХОДА === */
+.login-panel,
+.success-panel {
+    width: 420px;
+    padding: 70px 60px;
     text-align: center;
-    border-radius: 20px;
     transition: transform 0.35s ease;
 }
 
-.login-panel:hover {
-    transform: translateY(-8px);
+.login-panel:hover,
+.success-panel:hover {
+    transform: translateY(-7px);
 }
 
-.login-panel h2 {
+.login-panel h2,
+.success-panel h2 {
     color: var(--neon);
-    font-size: 2.1rem;
+    font-size: 2.20000000000002rem;
     margin-bottom: 50px;
     font-weight: 400;
 }
 
-.form-group {
-    margin-bottom: 35px;
-}
+.form-group { margin-bottom: 38px; }
 
 .form-group input {
     width: 100%;
     padding: 16px 0;
     background: none;
     border: none;
-    border-bottom: 2px solid #666;
+    border-bottom: 2.5px solid #666;
     color: white;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     text-align: center;
     outline: none;
     transition: 0.3s;
 }
 
-.form-group input:focus {
-    border-color: var(--neon);
-}
+.form-group input:focus { border-color: var(--neon); }
 
 .neon-button {
     width: 100%;
-    padding: 18px;
+    padding: 19px;
     background: var(--neon);
     color: black;
     border: none;
-    border-radius: 12px;
-    font-size: 1.35rem;
+    border-radius: 14px;
+    font-size: 1.4rem;
     font-weight: 600;
     cursor: pointer;
     margin-top: 15px;
     transition: all 0.35s ease;
 }
 
-/* === ОКНО ПОСЛЕ РЕГИСТРАЦИИ === */
-.success-panel {
-    width: 500px;
-    padding: 60px 50px;
-    text-align: center;
-    background: var(--panel);
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(253, 104, 26, 0.2);
-}
-
-.success-panel h2 {
-    color: var(--neon);
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-}
-
 .success-panel p {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     line-height: 1.8;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
-
-.success-panel .email {
-    color: var(--neon);
-    font-weight: 600;
-}
+.success-panel .email { color: var(--neon); font-weight: 600; }
