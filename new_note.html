@@ -3,73 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon - Новая Заметка</title>
+    <title>Neon - Новая заметка</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header-bar">
-        <h1 class="app-header-title">новая заметка</h1>
-        <a href="index.html" class="neon-logo">Ne</a>
-        <a href="#" id="save-btn" class="right-button">Сохранить</a>
+    <div class="header">
+        <h1 class="header-title">новая заметка</h1>
+        <a href="index.html" class="logo">Ne</a>
+        <a href="#" id="save" class="action-btn">Сохранить</a>
     </div>
 
-    <div class="content-container">
-        <div class="panel note-editor-title-panel">
-            <input type="text" id="note-title" placeholder="заголовок заметки">
+    <div class="content">
+        <div class="panel title-panel">
+            <input type="text" id="title" placeholder="заголовок заметки">
         </div>
-        <div class="panel note-editor-panel">
-            <textarea id="note-content" placeholder="текст заметки"></textarea>
+        <div class="panel editor-panel">
+            <textarea id="content" placeholder="текст заметки"></textarea>
         </div>
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeYZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
+        const URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
+        const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeYZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
         const token = localStorage.getItem('neon_token');
 
-        if (!token) {
-            alert('Войдите в аккаунт');
-            location.href = 'login.html';
-        }
+        if (!token) location.href = 'login.html';
 
-        document.getElementById('save-btn').onclick = async (e) => {
+        document.getElementById('save').onclick = async e => {
             e.preventDefault();
-            const title = document.getElementById('note-title').value.trim();
-            const content = document.getElementById('note-content').value.trim();
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+            if (!title && !content) return;
+
             const btn = e.target;
-
-            if (!title && !content) return alert('Заметка пустая');
-
             btn.textContent = 'Сохранение...';
-            btn.style.pointerEvents = 'none';
 
-            try {
-                const res = await fetch(SUPABASE_URL + '/rest/v1/notes', {
-                    method: 'POST',
-                    headers: {
-                        'apikey': ANON_KEY,
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
-                    },
-                    body: JSON.stringify({
-                        title: title || 'Без заголовка',
-                        content: content
-                    })
-                });
+            await fetch(URL + '/rest/v1/notes', {
+                method: 'POST',
+                headers: {
+                    apikey: KEY,
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json',
+                    Prefer: 'return=representation'
+                },
+                body: JSON.stringify({ title: title || 'Без названия', content })
+            });
 
-                if (res.ok) {
-                    alert('Заметка сохранена!');
-                    location.href = 'index.html';
-                } else {
-                    alert('Ошибка сохранения');
-                }
-            } catch (err) {
-                alert('Нет интернета');
-            } finally {
-                btn.textContent = 'Сохранить';
-                btn.style.pointerEvents = 'auto';
-            }
+            location.href = 'index.html';
         };
     </script>
 </body>

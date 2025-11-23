@@ -1,140 +1,127 @@
 :root {
-    --color-neon-orange: #fd681a;
-    --color-background: #000000;
-    --color-panel-bg: #1c1c1c;
-    --color-text-white: #ffffff;
-    --color-text-light: #aaaaaa;
+    --neon: #fd681a;
+    --bg: #000000;
+    --panel: #1c1c1c;
+    --text: #ffffff;
+    --gray: #aaaaaa;
 }
 
+* { box-sizing: border-box; }
+
 body {
-    background: var(--color-background);
-    color: var(--color-text-white);
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    overflow-x: hidden;
 }
 
 .hidden { display: none !important; }
 
-/* === ВЕРХНЯЯ ПАНЕЛЬ === */
-.header-bar {
+/* === ВЕРХНЯЯ ПАНЕЛЬ — ВСЁ РОВНО, НИЧЕГО НЕ НАЕЗЖАЕТ === */
+.header {
+    padding: 40px 60px;
     position: relative;
-    padding: 50px 60px 0 60px;
-    min-height: 120px;
+    height: 140px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
 }
 
-.app-header-title {
-    font-size: 3.5em;
+.header-title {
+    font-size: 3.5rem;
     font-weight: 300;
-    color: var(--color-neon-orange);
+    color: var(--neon);
     margin: 0;
     text-transform: lowercase;
-    font-family: 'Segoe UI Light', sans-serif;
-}
-
-.neon-logo {
     position: absolute;
-    right: 200px;
+    left: 60px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-neon-orange);
-    font-size: 3.5em;
-    font-weight: 600;
-    text-decoration: none;
-    font-family: 'Segoe UI', sans-serif;
-    transition: all 0.35s ease;
-    z-index: 100;
 }
 
-.right-button {
+.logo {
+    position: absolute;
+    right: 220px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--neon);
+    font-size: 3.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn {
     position: absolute;
     right: 60px;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--color-neon-orange);
+    background: var(--neon);
     color: #000;
-    padding: 11px 24px;
+    padding: 12px 28px;
     border-radius: 8px;
-    font-size: 1.2em;
+    font-size: 1.3rem;
     font-weight: 600;
     text-decoration: none;
-    font-family: 'Segoe UI', sans-serif;
-    transition: all 0.35s ease;
-    z-index: 99;
+    transition: all 0.3s ease;
 }
 
-/* === КРАСИВЫЙ НЕОН + ПОДЪЁМ ВВЕРХ === */
-a:hover,
-.neon-button:hover,
-.right-button:hover,
+/* НЕОН + ПОДЁМ ВВЕРХ */
+.logo:hover,
+.action-btn:hover,
 .new-note-panel:hover,
 .note-item:hover,
-.neon-logo:hover {
+.neon-button:hover {
     color: white !important;
-    text-shadow: 0 0 12px #fd681a, 0 0 25px #fd681a;
-    transform: translateY(-6px) !important;
+    text-shadow: 0 0 12px var(--neon), 0 0 25px var(--neon);
+    transform: translateY(-50%) translateY(-7px) !important;
 }
 
-.neon-button:hover,
-.right-button:hover {
+.action-btn:hover,
+.neon-button:hover {
     background: #e55a00;
-    box-shadow: 0 10px 25px rgba(253, 104, 26, 0.5);
 }
 
-.content-container {
-    padding: 30px 60px;
+/* Контент */
+.content {
     flex: 1;
+    padding: 0 60px 60px;
 }
 
 .panel {
-    background: var(--color-panel-bg);
-    border-radius: 10px;
+    background: var(--panel);
+    border-radius: 12px;
     padding: 24px;
-    transition: transform 0.35s ease;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease;
 }
 
-.panel:hover:not(.login-form-panel):not(.note-editor-title-panel):not(.note-editor-panel) {
-    transform: translateY(-6px);
+.panel:hover:not(.login-panel):not(.title-panel):not(.editor-panel) {
+    transform: translateY(-7px);
 }
 
 .notes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 26px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 28px;
+    margin-top: 30px;
 }
 
 .note-item {
-    height: 200px;
+    height: 210px;
     cursor: pointer;
-    overflow: hidden;
-    padding: 10px 0;
+    padding: 4px 0;
 }
 
 .note-item h3 {
-    color: var(--color-neon-orange);
-    font-size: 1.4em;
+    color: var(--neon);
+    font-size: 1.4rem;
     margin: 0 0 14px 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.note-text {
-    font-size: 0.98em;
-    line-height: 1.6;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 6;
-    -webkit-box-orient: vertical;
 }
 
 .new-note-panel {
@@ -144,66 +131,84 @@ a:hover,
     justify-content: center;
     text-decoration: none;
     color: inherit;
-    height: 200px;
 }
 
 .new-note-panel h3 {
-    color: var(--color-neon-orange);
-    font-size: 1.4em;
-    margin: 0 0 14px 0;
+    color: var(--neon);
+    font-size: 1.5rem;
+    margin: 0 0 16px 0;
 }
 
-.plus-sign {
-    color: var(--color-neon-orange);
-    font-size: 5em;
-    font-weight: 300;
+.plus {
+    color: var(--neon);
+    font-size: 5.5rem;
+    font-weight: 100;
 }
 
-/* Форма входа */
-.login-center-container {
+/* Форма входа — вернул старую красивую */
+.login-container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login-form-panel {
-    width: 390px;
+.login-panel {
+    width: 380px;
     padding: 60px 50px;
     text-align: center;
+    border-radius: 16px;
 }
 
-.login-form-panel h2, .orange-heading {
-    color: var(--color-neon-orange);
-    font-size: 1.9em;
+.login-panel h2 {
+    color: var(--neon);
+    font-size: 2rem;
     margin-bottom: 40px;
+    font-weight: 400;
+}
+
+.form-group {
+    margin-bottom: 30px;
 }
 
 .form-group input {
     width: 100%;
-    padding: 16px 0;
+    padding: 14px 0;
     background: none;
     border: none;
     border-bottom: 2px solid #666;
     color: white;
-    font-size: 1.15em;
+    font-size: 1.2rem;
     text-align: center;
     outline: none;
     transition: 0.3s;
 }
 
-.form-group input:focus { border-color: var(--color-neon-orange); }
+.form-group input:focus {
+    border-color: var(--neon);
+}
 
 .neon-button {
     width: 100%;
-    padding: 18px;
-    background: var(--color-neon-orange);
+    padding: 16px;
+    background: var(--neon);
     color: black;
     border: none;
     border-radius: 10px;
-    font-size: 1.25em;
+    font-size: 1.3rem;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 20px;
-    transition: all 0.35s ease;
+    margin-top: 10px;
+}
+
+/* Редактор */
+.title-panel input {
+    font-size: 1.7rem;
+    color: var(--neon);
+    font-weight: 600;
+}
+
+.editor-panel textarea {
+    font-size: 1.1rem;
+    line-height: 1.7;
 }
