@@ -14,22 +14,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content-container">
-        <h1 class="app-header-title">ваши заметки</h1>
-        <div class="neon-logo" id="neon-logo">Ne</div> 
-        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+    <div class="main-wrapper">
+        <div class="content-container">
+            <h1 class="app-header-title">ваши заметки</h1>
+            <div class="neon-logo" id="neon-logo">Ne</div> 
+            <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
 
-        <div class="notes-grid" id="notes-grid">
-            
-            <a href="new_note.html" class="panel new-note-panel">
-                <h3>Создать заметку</h3>
-                <div class="plus-sign">+</div>
-            </a>
-            
-            </div>
-    </div>
-
-    <script>
+            <div class="notes-grid" id="notes-grid">
+                
+                <a href="new_note.html" class="panel new-note-panel">
+                    <h3>Создать заметку</h3>
+                    <div class="plus-sign">+</div>
+                </a>
+                
+                </div>
+        </div>
+    </div> <script>
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
@@ -97,6 +97,14 @@
                 const notes = await response.json();
                 
                 // 4. Отрисовка заметок
+                // Очищаем существующую разметку перед добавлением новых
+                notesGrid.innerHTML = `
+                    <a href="new_note.html" class="panel new-note-panel">
+                        <h3>Создать заметку</h3>
+                        <div class="plus-sign">+</div>
+                    </a>
+                `; 
+                
                 notes.forEach(note => {
                     const noteElement = document.createElement('div');
                     noteElement.className = 'panel note-item';
@@ -118,6 +126,7 @@
              const loggedOutMessage = document.createElement('p');
              loggedOutMessage.style.color = 'var(--color-text-light)';
              loggedOutMessage.textContent = 'Пожалуйста, войдите в систему, чтобы увидеть ваши заметки.';
+             // Добавляем сообщение после кнопки "Создать заметку"
              notesGrid.appendChild(loggedOutMessage);
         }
     </script>

@@ -14,46 +14,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content-container">
-        <h1 class="app-header-title">войти в neon</h1>
-        <div class="neon-logo" id="neon-logo">Ne</div> 
-        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
-    </div>
-    
-    <div class="login-center-container">
-        <div class="panel login-form-panel">
-            <h2 id="form-heading">Войти</h2>
-            
-            <form id="auth-form">
-                <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
-                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
-                <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
-                <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
-            </form>
+    <div class="main-wrapper">
+        <div class="content-container">
+            <h1 class="app-header-title">войти в neon</h1>
+            <div class="neon-logo" id="neon-logo">Ne</div> 
+            <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+        </div>
+        
+        <div class="login-center-container">
+            <div class="panel login-form-panel">
+                <h2 id="form-heading">Войти</h2>
+                
+                <form id="auth-form">
+                    <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
+                    <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
+                    <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
+                    <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
+                </form>
 
-            <div id="check-email-view" class="hidden">
-                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
-                    На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
-                </p>
-            </div>
-            <div id="success-view" class="hidden">
-                <h2 class="orange-heading">Регистрация успешно завершена</h2>
-                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; line-height: 1.6;">
-                    Спасибо за регистрацию в Neon! Также вы можете скачать 
-                    <a href="#" id="apps-link" class="app-link">наши приложения</a> 
-                    почти для любого устройства.
-                </p>
-                <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
-            </div>
-            
-            <div class="register-section" id="toggle-section">
-                <span id="toggle-text">Ещё нет аккаунта в Neon?</span>
-                <a href="#" id="toggle-link" class="register-link">Зарегистрируйтесь!</a>
+                <div id="check-email-view" class="hidden">
+                    <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
+                        На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
+                    </p>
+                </div>
+                <div id="success-view" class="hidden">
+                    <h2 class="orange-heading">Регистрация успешно завершена</h2>
+                    <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; line-height: 1.6;">
+                        Спасибо за регистрацию в Neon! Также вы можете скачать 
+                        <a href="#" id="apps-link" class="app-link">наши приложения</a> 
+                        почти для любого устройства.
+                    </p>
+                    <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
+                </div>
+                
+                <div class="register-section" id="toggle-section">
+                    <span id="toggle-text">Ещё нет аккаунта в Neon?</span>
+                    <a href="#" id="toggle-link" class="register-link">Зарегистрируйтесь!</a>
+                </div>
             </div>
         </div>
-    </div>
-
-    <script>
+    </div> <script>
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';

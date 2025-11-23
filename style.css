@@ -5,7 +5,7 @@
     --color-text-light: #aaa;
     --color-panel-background: #1a1a1a;
     --color-border-dark: #333;
-    /* Новый: Неоновый эффект */
+    /* Неоновый эффект */
     --neon-shadow: 0 0 5px var(--color-neon-orange), 0 0 10px var(--color-neon-orange);
     --neon-shadow-text: 0 0 2px var(--color-neon-orange);
 }
@@ -16,18 +16,22 @@ body {
     color: var(--color-text-white);
     margin: 0;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: flex-start;
+    /* УДАЛЕНО: display: flex и центрирование всего body, чтобы сохранить оригинальный дизайн */
+}
+
+/* Контейнер для центрирования всего содержимого на странице */
+.main-wrapper {
+    width: 100%;
+    max-width: 640px; /* Немного увеличена ширина для лучшего вида */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 /* Контейнер для верхних элементов (Заголовок, Лого, Кнопка) */
 .content-container {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 20px 0;
     display: flex;
     justify-content: space-between; /* Распределяем элементы по краям */
     align-items: center; /* Выравнивание по вертикали (ОДНА ВЫСОТА) */
@@ -44,7 +48,7 @@ body {
     margin: 0;
 }
 
-/* Изменения для логотипа: курсор и эффект */
+/* Логотип: кликабельность и эффект */
 .neon-logo {
     font-size: 2em;
     font-weight: bold;
@@ -52,21 +56,21 @@ body {
     border: 2px solid var(--color-neon-orange);
     padding: 5px 10px;
     line-height: 1;
-    cursor: pointer; /* Делаем кликабельным */
+    cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
 
 .neon-logo:hover {
-    color: var(--color-text-white); /* Цвет текста меняется при наведении */
+    color: var(--color-text-white);
     border-color: var(--color-text-white);
     text-shadow: var(--neon-shadow-text);
     box-shadow: var(--neon-shadow);
 }
 
-/* Изменения для кликабельных ссылок */
+/* Кликабельные ссылки: неоновый эффект, убрано подчеркивание */
 .auth-link, .register-link, .app-link {
     color: var(--color-neon-orange);
-    text-decoration: none; /* Убираем подчеркивание */
+    text-decoration: none;
     font-size: 0.9em;
     transition: all 0.2s ease-in-out;
 }
@@ -76,12 +80,12 @@ body {
     text-shadow: var(--neon-shadow-text);
 }
 
-/* Контейнер для центрирования формы входа */
+/* Контейнер для центрирования формы входа/регистрации */
 .login-center-container {
-    flex-grow: 1;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: flex-start; /* Начинаем сверху, а не по центру экрана */
+    padding-top: 50px; /* Отступ от шапки */
     width: 100%;
 }
 
@@ -95,7 +99,7 @@ body {
 }
 
 .login-form-panel {
-    max-width: 380px;
+    max-width: 380px; 
     width: 100%;
     text-align: center;
 }
@@ -126,42 +130,47 @@ body {
     box-shadow: none;
 }
 
-/* Убираем подчеркивание для "Создать заметку" */
-.new-note-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 150px;
-    text-decoration: none; /* Убираем подчеркивание */
-    border: 2px dashed var(--color-border-dark);
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.new-note-panel:hover {
-    border-color: var(--color-neon-orange);
-    box-shadow: var(--neon-shadow);
-}
-
-.new-note-panel h3 {
-    text-decoration: none; /* Убираем подчеркивание у заголовка */
-}
-
-.plus-sign {
-    font-size: 3em;
+/* Остальные стили */
+#form-heading, .orange-heading {
     color: var(--color-neon-orange);
-    line-height: 1;
-    text-decoration: none; /* Убираем подчеркивание у "+" */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+input[type="email"], input[type="password"], input[type="text"], textarea {
+    width: 100%;
+    padding: 12px 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--color-border-dark);
+    color: var(--color-text-white);
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-bottom-color 0.3s;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-bottom-color: var(--color-neon-orange);
+}
+.register-section {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--color-text-light);
+}
+.hidden {
+    display: none !important;
 }
 
-/* Остальные стили ... */
+/* Стили для заметок (index.html) */
 .notes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     width: 100%;
-    max-width: 600px;
     margin-top: 20px;
 }
 .note-item {
@@ -187,6 +196,33 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+/* Создать заметку: убраны подчеркивания, добавлен эффект */
+.new-note-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 150px;
+    text-decoration: none; /* Убираем подчеркивание */
+    border: 2px dashed var(--color-border-dark);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.new-note-panel:hover {
+    border-color: var(--color-neon-orange);
+    box-shadow: var(--neon-shadow);
+}
+
+.plus-sign {
+    font-size: 3em;
+    color: var(--color-neon-orange);
+    line-height: 1;
+    text-decoration: none; /* Убираем подчеркивание у "+" */
+}
+
+/* Стили для редактора (new_note.html) */
 .save-button {
     position: absolute;
     top: 25px;
@@ -200,25 +236,28 @@ body {
     font-size: 0.9em;
     transition: opacity 0.3s;
 }
+
 .note-editor-title-panel {
     width: 100%;
-    max-width: 600px;
     margin-top: 15px;
     margin-bottom: 20px;
     padding: 0 20px;
 }
+
 #note-title {
     border-bottom: 2px solid var(--color-neon-orange);
     font-size: 1.5em;
     font-weight: bold;
     padding: 5px 0;
 }
+
 .note-editor-panel {
     width: 100%;
     max-width: 600px;
     height: 500px;
     padding: 20px;
 }
+
 #note-content {
     height: 100%;
     border: none;
