@@ -2,40 +2,29 @@
 :root {
     --color-neon-orange: #fd681a;
     --color-background: #000000;
-    --color-panel-bg: #1c1c1c; /* Темно-серый для панелей */
+    --color-panel-bg: #1c1c1c;
     --color-text-white: #ffffff;
-    --color-text-light: #aaaaaa; /* Более светлый для плейсхолдеров/дополнительной информации */
+    --color-text-light: #aaaaaa;
 }
 
-/* =================================================
-   Шрифты 
-   =================================================
-*/
-
+/* Шрифты */
 @font-face {
     font-family: 'Neon-App-Light';
-    src: local('Segoe UI Light'), local('Segoe UI Semilight'), local('Arial'); 
+    src: local('Segoe UI Light'), local('Segoe UI Semilight'), local('Arial');
     font-weight: 300;
 }
-
 @font-face {
     font-family: 'Neon-App-Semibold';
     src: local('SF Pro Display Semibold'), local('Arial Black'), local('Arial');
     font-weight: 600;
 }
-
 @font-face {
     font-family: 'Neon-App-Regular';
     src: local('SF Pro Display Regular'), local('Segoe UI'), local('Arial');
     font-weight: 400;
 }
 
-
-/* =================================================
-   Основные стили 
-   =================================================
-*/
-
+/* Основные стили */
 body {
     background-color: var(--color-background);
     color: var(--color-text-white);
@@ -46,49 +35,59 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+.hidden { display: none !important; }
 
-/* Элемент, который гарантированно скрыт */
-.hidden {
-    display: none !important;
+/* Верхняя панель: заголовок + логотип + кнопка на одной высоте */
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    position: relative;
 }
-
-/* Общий заголовок приложения (верхний левый угол) - строчный */
 .app-header-title {
-    font-family: 'Neon-App-Light', 'Segoe UI Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Light';
     color: var(--color-neon-orange);
-    font-size: 3.5em; 
+    font-size: 3.5em;
     font-weight: 300;
-    margin-bottom: 20px;
-    text-transform: lowercase; 
+    margin: 0;
+    text-transform: lowercase;
 }
-
 .neon-logo {
     color: var(--color-neon-orange);
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     font-size: 3.5em;
     font-weight: 600;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-.auth-link {
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-neon-orange);
-    font-size: 1.2em;
-    font-weight: 400;
-    position: absolute;
-    top: 50px;
-    right: 120px;
     text-decoration: none;
-    cursor: pointer;
+    transition: all 0.3s;
+}
+.auth-link {
+    color: var(--color-neon-orange046);
+    font-size: 1.2em;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
+/* Неоновый эффект при наведении на все кликабельные элементы */
+a, button, .note-item, .new-note-panel, .save-button {
+    transition: all 0.3s ease;
+}
+a:hover, button:hover, .note-item:hover, .new-note-panel:hover, .save-button:hover,
+.neon-logo:hover, .auth-link:hover {
+    color: var(--color-neon-orange) !important;
+    text-shadow: 0 0 10px #fd681a;
+    transform: translateY(-2px);
+}
+
+/* Контент */
 .content-container {
-    padding: 40px;
+    padding: 0 40px 40px;
     flex-grow: 1;
 }
-
 .panel {
     background-color: var(--color-panel-bg);
     border-radius: 5px;
@@ -96,55 +95,38 @@ body {
     box-sizing: border-box;
     transition: transform 0.2s;
 }
+.panel:hover { transform: translateY(-2px); }
 
-.panel:hover {
-    transform: translateY(-2px);
-}
-
-/* =================================================
-   Стили для index.html (Список заметок)
-   =================================================
-*/
-
+/* Список заметок */
 .notes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
-
 .note-item {
     cursor: pointer;
-    height: 180px; 
+    height: 180px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
-
 .note-item h3 {
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     color: var(--color-neon-orange);
     font-size: 1.3em;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .note-text {
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-text-white);
-    font-size: 0.9em;
-    font-weight: 400;
     margin: 0;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
+    font-size: 0.9em;
 }
-
 .new-note-panel {
     height: 180px;
     display: flex;
@@ -152,68 +134,42 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    text-decoration: none;
 }
-
 .new-note-panel h3 {
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     color: var(--color-neon-orange);
     font-size: 1.3em;
-    font-weight: 600;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
 }
-
 .new-note-panel .plus-sign {
     color: var(--color-neon-orange);
     font-size: 4em;
     line-height: 1;
 }
 
-/* =================================================
-   Стили для login.html (Вход/Регистрация/Успех)
-   =================================================
-*/
-
+/* Форма входа/регистрации */
 .login-center-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    padding: 40px;
 }
-
 .login-form-panel {
     width: 350px;
     padding: 40px 30px;
     box-sizing: border-box;
     text-align: center;
 }
-
-/* Заголовки форм (Войти, Регистрация) */
 .login-form-panel h2 {
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--color-neon-orange);
     font-size: 1.5em;
-    font-weight: 400;
     margin-bottom: 30px;
-    text-transform: capitalize; 
+    text-transform: capitalize;
 }
-
-/* Общий стиль для оранжевых заголовков и текста в футере */
-.orange-heading {
-    color: var(--color-neon-orange);
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.5em;
-}
-
-.orange-text {
-    color: var(--color-neon-orange);
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
+.orange-heading { color: var(--color-neon-orange); font-size: 1.5em; margin: 0 0 15px 0; }
+.orange-text { color: var(--color-neon-orange); }
+.form-group { margin-bottom: 25px; }
 .form-group input {
     width: 100%;
     padding: 10px 0;
@@ -225,68 +181,48 @@ body {
     outline: none;
     text-align: center;
 }
-
-.form-group input::placeholder {
-    color: var(--color-text-light);
-    opacity: 1;
-}
-
-/* Общий стиль для оранжевых кнопок */
+.form-group input::placeholder { color: var(--color-text-light); opacity: 1; }
 .neon-button {
     width: 100%;
     padding: 12px;
     background-color: var(--color-neon-orange);
-    color: var(--color-background); /* Черный текст на оранжевом */
+    color: #000;
     border: none;
     border-radius: 5px;
     font-size: 1.1em;
     cursor: pointer;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     font-weight: 600;
     margin-top: 10px;
-    text-transform: capitalize; 
+    text-transform: capitalize;
 }
-
 .register-section {
     margin-top: 40px;
     font-size: 0.9em;
-    color: var(--color-text-white);
-    text-align: center; 
-    display: block; 
+    text-align: center;
 }
-
 .register-link {
     color: var(--color-neon-orange);
     text-decoration: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     font-weight: 600;
     margin-left: 5px;
     cursor: pointer;
-    text-transform: capitalize; 
+    text-transform: capitalize;
 }
-
-/* Ссылка приложений, используемая в окне успешной регистрации */
 .app-link {
     color: var(--color-neon-orange);
     text-decoration: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     font-weight: 600;
-    cursor: pointer;
 }
 
-
-/* =================================================
-   Стили для new_note.html (Создание заметки)
-   =================================================
-*/
-
+/* Редактор заметки */
 .note-editor-title-panel {
     background-color: var(--color-panel-bg);
     border-radius: 5px 5px 0 0;
     padding: 15px 20px;
-    margin-bottom: 0;
 }
-
 .note-editor-title-panel input {
     width: 100%;
     background: none;
@@ -294,23 +230,18 @@ body {
     color: var(--color-neon-orange);
     font-size: 1.3em;
     outline: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 600;
+    font-family: 'Neon-App-Semibold';
 }
-
 .note-editor-title-panel input::placeholder {
     color: var(--color-neon-orange);
     opacity: 0.7;
-    text-transform: lowercase; 
+    text-transform: lowercase;
 }
-
 .note-editor-panel {
-    height: 600px; 
+    height: 600px;
     padding: 20px;
     border-radius: 0 0 5px 5px;
-    margin-top: 0;
 }
-
 .note-editor-panel textarea {
     width: 100%;
     height: 100%;
@@ -320,27 +251,22 @@ body {
     font-size: 1em;
     outline: none;
     resize: none;
-    font-family: 'Neon-App-Regular', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 400;
     box-sizing: border-box;
 }
-
 .note-editor-panel textarea::placeholder {
     color: var(--color-text-light);
-    opacity: 1;
-    text-transform: lowercase; 
+    text-transform: lowercase;
 }
-
-/* Кнопка "Сохранить" */
 .save-button {
-    position: absolute;
-    top: 50px;
-    right: 120px;
     background-color: var(--color-neon-orange);
-    color: var(--color-background);
+    color: #000;
     padding: 8px 15px;
     border-radius: 5px;
     text-decoration: none;
-    font-family: 'Neon-App-Semibold', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neon-App-Semibold';
     font-weight: 600;
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
 }

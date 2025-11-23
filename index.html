@@ -4,58 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neon - Ваши Заметки</title>
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co;
-        script-src 'self' 'unsafe-inline';
-        style-src 'self' 'unsafe-inline';
-        img-src 'self' data:;
-    ">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://zamhgvmayjcyvdkuauxe.supabase.co; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content-container">
+    <div class="header-bar">
         <h1 class="app-header-title">ваши заметки</h1>
-        <div class="neon-logo">Ne</div>
+        <a href="index.html" class="neon-logo">Ne</a>
         <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+    </div>
 
+    <div class="content-container">
         <div class="notes-grid" id="notes-grid">
-            
             <a href="new_note.html" class="panel new-note-panel">
                 <h3>Создать заметку</h3>
                 <div class="plus-sign">+</div>
             </a>
-            
-            </div>
+        </div>
     </div>
 
     <script>
-        // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
-        // const PROXY = '...'; // УДАЛЕНО!
-
         const notesGrid = document.getElementById('notes-grid');
         const authLink = document.getElementById('auth-link');
         const token = localStorage.getItem('neon_token');
 
-        // --- УНИВЕРСАЛЬНАЯ ФУНКЦИЯ (ПРЯМОЙ FETCH) ---
         async function sb(endpoint, options = {}) {
-            const url = SUPABASE_URL + endpoint;
-            
-            // ПРЯМОЙ ВЫЗОВ FETCH
-            return fetch(url, {
+            return fetch(SUPABASE_URL + endpoint, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
                     'apikey': ANON_KEY,
-                    'Authorization': options.headers?.Authorization || '', // Сохраняем заголовок Authorization, если он есть
-                    ...options.headers 
+                    ...options.headers
                 }
             });
         }
 
-        // 1. Управление ссылкой входа/выхода
         if (token) {
             authLink.textContent = 'выйти из neon';
             authLink.href = '#';
@@ -64,58 +49,45 @@
                 localStorage.removeItem('neon_token');
                 window.location.reload();
             });
-        } else {
-            authLink.textContent = 'войти в neon';
-            authLink.href = 'login.html';
         }
-        
-        // 2. Функция загрузки заметок (Использует sb)
+
         async function fetchNotes() {
             if (!token) return;
-
             try {
-                // ИСПОЛЬЗУЕМ sb() для прямого запроса
-                const response = await sb(`/rest/v1/notes?select=id,title,content`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}` 
-                    }
+                const res = await sb('/rest/v1/notes?select=id,title,content', {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
-                
-                if (response.status === 401) {
+                if (res.status === 401) {
                     localStorage.removeItem('neon_token');
-                    alert('Сессия истекла. Пожалуйста, войдите снова.');
+                    alert('Сессия истекла. Войдите снова.');
                     window.location.href = 'login.html';
                     return;
                 }
-
-                if (!response.ok) throw new Error('Ошибка загрузки заметок');
-
-                const notes = await response.json();
-                
-                // 3. Отрисовка заметок
+                const notes = await res.json();
                 notes.forEach(note => {
-                    const noteElement = document.createElement('div');
-                    noteElement.className = 'panel note-item';
-                    noteElement.innerHTML = `
-                        <h3>${note.title || 'Заметка без заголовка'}</h3>
-                        <p class="note-text">${note.content || ''}</p>
-                    `;
-                    notesGrid.appendChild(noteElement);
+                    const el = document.createElement('div');
+                    el.className = 'panel note-item';
+                    el.innerHTML = `<h3>${note.title || 'Без заголовка'}</h3><p class="note-text">${note.content || ''}</p>`;
+                    el.addEventListener('click', () => {
+                        alert('Редактирование заметок будет в следующей версии :)');
+                    });
+                    notesGrid.appendChild(el);
                 });
-
-            } catch (error) {
-                console.error('Ошибка:', error);
+            } catch (err) {
+                console.error(err);
             }
         }
 
         if (token) {
-             fetchNotes();
+            fetchNotes();
         } else {
-             const loggedOutMessage = document.createElement('p');
-             loggedOutMessage.style.color = 'var(--color-text-light)';
-             loggedOutMessage.textContent = 'Пожалуйста, войдите в систему, чтобы увидеть ваши заметки.';
-             notesGrid.appendChild(loggedOutMessage);
+            const msg = document.createElement('p');
+            msg.style.color = 'var(--color-text-light)';
+            msg.textContent = 'Пожалуйста, войдите в систему, чтобы увидеть ваши заметки.';
+            msg.style.gridColumn = '1 / -1';
+            msg.style.textAlign = 'center';
+            msg.style.marginTop = '50px';
+            notesGrid.appendChild(msg);
         }
     </script>
 </body>
