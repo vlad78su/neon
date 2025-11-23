@@ -14,22 +14,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-wrapper">
-        <div class="content-container">
-            <h1 class="app-header-title">ваши заметки</h1>
-            <div class="neon-logo" id="neon-logo">Ne</div> 
-            <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+    <div class="content-container">
+        <h1 class="app-header-title">ваши заметки</h1>
+        <div class="neon-logo" id="neon-logo">Ne</div>
+        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
 
-            <div class="notes-grid" id="notes-grid">
-                
-                <a href="new_note.html" class="panel new-note-panel">
-                    <h3>Создать заметку</h3>
-                    <div class="plus-sign">+</div>
-                </a>
-                
-                </div>
-        </div>
-    </div> 
+        <div class="notes-grid" id="notes-grid">
+            
+            <a href="new_note.html" class="panel new-note-panel">
+                <h3>Создать заметку</h3>
+                <div class="plus-sign">+</div>
+            </a>
+            
+            </div>
+    </div>
 
     <script>
         // --- КОНФИГУРАЦИЯ ---
@@ -55,6 +53,11 @@
                 }
             });
         }
+        
+        // Клик по логотипу перенаправляет на index.html
+        neonLogo.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
 
         // 1. Управление ссылкой входа/выхода
         if (token) {
@@ -69,13 +72,8 @@
             authLink.textContent = 'войти в neon';
             authLink.href = 'login.html';
         }
-
-        // 2. Клик по логотипу перенаправляет на index.html
-        neonLogo.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
         
-        // 3. Функция загрузки заметок
+        // 2. Функция загрузки заметок
         async function fetchNotes() {
             if (!token) return;
 
@@ -98,15 +96,7 @@
 
                 const notes = await response.json();
                 
-                // 4. Отрисовка заметок
-                // Очищаем существующую разметку и добавляем кнопку "Создать заметку"
-                notesGrid.innerHTML = `
-                    <a href="new_note.html" class="panel new-note-panel">
-                        <h3>Создать заметку</h3>
-                        <div class="plus-sign">+</div>
-                    </a>
-                `; 
-                
+                // 3. Отрисовка заметок
                 notes.forEach(note => {
                     const noteElement = document.createElement('div');
                     noteElement.className = 'panel note-item';
@@ -128,7 +118,6 @@
              const loggedOutMessage = document.createElement('p');
              loggedOutMessage.style.color = 'var(--color-text-light)';
              loggedOutMessage.textContent = 'Пожалуйста, войдите в систему, чтобы увидеть ваши заметки.';
-             // Добавляем сообщение после кнопки "Создать заметку"
              notesGrid.appendChild(loggedOutMessage);
         }
     </script>

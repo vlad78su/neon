@@ -14,46 +14,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-wrapper">
-        <div class="content-container">
-            <h1 class="app-header-title">войти в neon</h1>
-            <div class="neon-logo" id="neon-logo">Ne</div> 
-            <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
-        </div>
-        
-        <div class="login-center-container">
-            <div class="panel login-form-panel">
-                <h2 id="form-heading">Войти</h2>
-                
-                <form id="auth-form">
-                    <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
-                    <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
-                    <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
-                    <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
-                </form>
+    <div class="content-container">
+        <h1 class="app-header-title">войти в neon</h1>
+        <div class="neon-logo" id="neon-logo">Ne</div>
+        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+    </div>
+    
+    <div class="login-center-container">
+        <div class="panel login-form-panel">
+            <h2 id="form-heading">Войти</h2>
+            
+            <form id="auth-form">
+                <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
+                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)"></div>
+                <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
+                <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
+            </form>
 
-                <div id="check-email-view" class="hidden">
-                    <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
-                        На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
-                    </p>
-                </div>
-                <div id="success-view" class="hidden">
-                    <h2 class="orange-heading">Регистрация успешно завершена</h2>
-                    <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; line-height: 1.6;">
-                        Спасибо за регистрацию в Neon! Также вы можете скачать 
-                        <a href="#" id="apps-link" class="app-link">наши приложения</a> 
-                        почти для любого устройства.
-                    </p>
-                    <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
-                </div>
-                
-                <div class="register-section" id="toggle-section">
-                    <span id="toggle-text">Ещё нет аккаунта в Neon?</span>
-                    <a href="#" id="toggle-link" class="register-link">Зарегистрируйтесь!</a>
-                </div>
+            <div id="check-email-view" class="hidden">
+                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; margin-top: 15px;">
+                    На ваш email (<span id="pending-email" class="orange-text"></span>) отправлено письмо с проверочной ссылкой. Пожалуйста, перейдите по ней для завершения регистрации.
+                </p>
+            </div>
+            <div id="success-view" class="hidden">
+                <h2 class="orange-heading">Регистрация успешно завершена</h2>
+                <p style="color: var(--color-text-white); font-size: 0.9em; margin-bottom: 25px; line-height: 1.6;">
+                    Спасибо за регистрацию в Neon! Также вы можете скачать 
+                    <a href="#" id="apps-link" class="app-link">наши приложения</a> 
+                    почти для любого устройства.
+                </p>
+                <button type="button" id="go-to-notes" class="neon-button">Перейти в Neon</button>
+            </div>
+            
+            <div class="register-section" id="toggle-section">
+                <span id="toggle-text">Ещё нет аккаунта в Neon?</span>
+                <a href="#" id="toggle-link" class="register-link">Зарегистрируйтесь!</a>
             </div>
         </div>
-    </div> 
+    </div>
 
     <script>
         // --- КОНФИГУРАЦИЯ ---
@@ -69,6 +67,7 @@
         const toggleLink = document.getElementById('toggle-link');
         const loginGroup = document.getElementById('login-group');
         const toggleSection = document.getElementById('toggle-section');
+        const authLoginInput = document.getElementById('auth-login'); // Получаем поле логина
         const neonLogo = document.getElementById('neon-logo');
         
         let isLoginMode = true;
@@ -77,7 +76,7 @@
         async function sb(endpoint, options = {}) {
             const url = SUPABASE_URL + endpoint;
             
-            return fetch(url, {
+            return fetch(url, { // Прямой вызов fetch без прокси
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,12 +100,16 @@
                 toggleLink.textContent = 'Зарегистрируйтесь!';
                 document.getElementById('toggle-text').textContent = 'Ещё нет аккаунта в Neon?';
                 loginGroup.classList.add('hidden');
+                // Убираем required при входе
+                authLoginInput.removeAttribute('required');
             } else {
                 formHeading.textContent = 'Регистрация';
                 authButton.textContent = 'Зарегистрироваться';
                 toggleLink.textContent = 'Войти!';
                 document.getElementById('toggle-text').textContent = 'Уже есть аккаунт?';
                 loginGroup.classList.remove('hidden');
+                // Добавляем required при регистрации
+                authLoginInput.setAttribute('required', 'required');
             }
         }
         
@@ -136,7 +139,7 @@
             neonLogo.addEventListener('click', () => {
                 window.location.href = 'index.html';
             });
-
+            
             // Если мы получили токен после перехода по ссылке из почты
             if (accessToken && type === 'signup') {
                 localStorage.setItem('neon_token', accessToken);
@@ -189,9 +192,7 @@
                     console.log("Вход успешен! Перенаправление...");
                     window.location.href = 'index.html';
                 } else {
-                    // Улучшенный вывод ошибки
-                    const errorMsg = data.error_description || data.msg || data.error || 'Неверный email, пароль или аккаунт не подтвержден.';
-                    console.error("Ошибка входа (Supabase):", data);
+                    const errorMsg = data.error_description || data.msg || data.error || 'Неверный email или пароль.';
                     alert("Ошибка входа: " + errorMsg);
                 }
             } catch (error) {

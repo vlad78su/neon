@@ -14,24 +14,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-wrapper">
-        <div class="content-container">
-            <h1 class="app-header-title">новая заметка</h1>
-            <div class="neon-logo" id="neon-logo">Ne</div> 
+    <div class="content-container">
+        <h1 class="app-header-title">новая заметка</h1>
+        <div class="neon-logo" id="neon-logo">Ne</div>
 
-            <a href="#" id="save-note-button" class="save-button">Сохранить</a>
-        </div>
+        <a href="#" id="save-note-button" class="save-button">Сохранить</a>
+    </div>
 
-        <div class="note-editor-title-panel">
-            <input type="text" id="note-title" placeholder="заголовок заметки">
-        </div>
+    <div class="note-editor-title-panel">
+        <input type="text" id="note-title" placeholder="заголовок заметки">
+    </div>
 
-        <div class="panel note-editor-panel">
-            <textarea id="note-content" placeholder="текст заметки"></textarea>
-        </div>
-        
-    </div> 
-
+    <div class="panel note-editor-panel">
+        <textarea id="note-content" placeholder="текст заметки"></textarea>
+    </div>
+    
     <script>
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';

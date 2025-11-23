@@ -5,9 +5,6 @@
     --color-text-light: #aaa;
     --color-panel-background: #1a1a1a;
     --color-border-dark: #333;
-    /* Неоновый эффект */
-    --neon-shadow: 0 0 5px var(--color-neon-orange), 0 0 10px var(--color-neon-orange);
-    --neon-shadow-text: 0 0 2px var(--color-neon-orange);
 }
 
 body {
@@ -16,24 +13,21 @@ body {
     color: var(--color-text-white);
     margin: 0;
     min-height: 100vh;
+    display: flex; /* Активируем Flexbox */
+    flex-direction: column; 
+    align-items: center;
+    justify-content: flex-start; /* Удерживаем шапку сверху */
 }
 
-/* Обертка для центрирования всего содержимого на странице */
-.main-wrapper {
-    width: 100%;
-    max-width: 640px; 
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
-/* Шапка: Выравнивание заголовка, лого и ссылки */
+/* Контейнер для верхних элементов (Заголовок и Лого) */
 .content-container {
-    padding: 20px 0;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Выравнивание по вертикали (на одной высоте) */
+    align-items: center;
     position: relative;
     z-index: 10;
 }
@@ -47,7 +41,6 @@ body {
     margin: 0;
 }
 
-/* Логотип: кликабельность и эффект */
 .neon-logo {
     font-size: 2em;
     font-weight: bold;
@@ -55,36 +48,25 @@ body {
     border: 2px solid var(--color-neon-orange);
     padding: 5px 10px;
     line-height: 1;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
 }
 
-.neon-logo:hover {
-    color: var(--color-text-white);
-    border-color: var(--color-text-white);
-    text-shadow: var(--neon-shadow-text);
-    box-shadow: var(--neon-shadow);
-}
-
-/* Кликабельные ссылки: неоновый эффект, убрано подчеркивание */
 .auth-link, .register-link, .app-link {
     color: var(--color-neon-orange);
     text-decoration: none;
     font-size: 0.9em;
-    transition: all 0.2s ease-in-out;
+    transition: color 0.2s;
 }
 
 .auth-link:hover, .register-link:hover, .app-link:hover {
-    color: var(--color-text-white);
-    text-shadow: var(--neon-shadow-text);
+    color: #ff9933;
 }
 
-/* Контейнер для центрирования формы входа/регистрации */
+/* Контейнер для центрирования формы входа */
 .login-center-container {
+    flex-grow: 1; /* Занимает оставшееся место */
     display: flex;
+    align-items: center; /* Центрирование формы по вертикали */
     justify-content: center;
-    align-items: flex-start;
-    padding-top: 50px;
     width: 100%;
 }
 
@@ -98,38 +80,12 @@ body {
 }
 
 .login-form-panel {
-    max-width: 380px; 
+    max-width: 380px; /* Фиксированная максимальная ширина */
     width: 100%;
     text-align: center;
 }
 
-/* Кнопки с неоновым эффектом */
-.neon-button {
-    width: 100%;
-    padding: 12px 20px;
-    background-color: var(--color-neon-orange);
-    color: var(--color-background-dark);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.2s ease-in-out;
-}
-
-.neon-button:hover:not(:disabled) {
-    background-color: #ff9933;
-    box-shadow: var(--neon-shadow);
-}
-
-.neon-button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-/* Остальные стили для форм */
+/* Формы и элементы ввода */
 #form-heading, .orange-heading {
     color: var(--color-neon-orange);
     text-transform: uppercase;
@@ -155,11 +111,36 @@ input:focus, textarea:focus {
     outline: none;
     border-bottom-color: var(--color-neon-orange);
 }
+
+.neon-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--color-neon-orange);
+    color: var(--color-background-dark);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.neon-button:hover:not(:disabled) {
+    background-color: #ff9933;
+}
+
+.neon-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
 .register-section {
     margin-top: 20px;
     font-size: 0.9em;
     color: var(--color-text-light);
 }
+
 .hidden {
     display: none !important;
 }
@@ -170,14 +151,17 @@ input:focus, textarea:focus {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     width: 100%;
+    max-width: 600px;
     margin-top: 20px;
 }
+
 .note-item {
     padding: 20px;
     text-align: left;
-    height: 150px;
+    height: 150px; /* Фиксированная высота для единообразия */
     overflow: hidden;
 }
+
 .note-item h3 {
     color: var(--color-neon-orange);
     margin-top: 0;
@@ -186,17 +170,17 @@ input:focus, textarea:focus {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .note-text {
     color: var(--color-text-light);
     font-size: 0.9em;
     line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 4; /* Ограничение в 4 строки */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* Создать заметку: убраны подчеркивания, добавлен эффект */
 .new-note-panel {
     display: flex;
     flex-direction: column;
@@ -206,19 +190,17 @@ input:focus, textarea:focus {
     height: 150px;
     text-decoration: none;
     border: 2px dashed var(--color-border-dark);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: border-color 0.3s;
 }
 
 .new-note-panel:hover {
     border-color: var(--color-neon-orange);
-    box-shadow: var(--neon-shadow);
 }
 
 .plus-sign {
     font-size: 3em;
     color: var(--color-neon-orange);
     line-height: 1;
-    text-decoration: none;
 }
 
 /* Стили для редактора (new_note.html) */
@@ -238,6 +220,7 @@ input:focus, textarea:focus {
 
 .note-editor-title-panel {
     width: 100%;
+    max-width: 600px;
     margin-top: 15px;
     margin-bottom: 20px;
     padding: 0 20px;
