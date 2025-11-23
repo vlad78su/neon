@@ -16,8 +16,7 @@
 <body>
     <div class="content-container">
         <h1 class="app-header-title">войти в neon</h1>
-        <div class="neon-logo" id="neon-logo">Ne</div>
-        <a href="login.html" id="auth-link" class="auth-link">войти в neon</a>
+        <div class="neon-logo">Ne</div>
     </div>
     
     <div class="login-center-container">
@@ -26,7 +25,7 @@
             
             <form id="auth-form">
                 <div class="form-group"><input type="email" id="auth-email" placeholder="email" required></div>
-                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)"></div>
+                <div class="form-group hidden" id="login-group"><input type="text" id="auth-login" placeholder="логин (имя пользователя)" required></div>
                 <div class="form-group"><input type="password" id="auth-password" placeholder="пароль" required></div>
                 <div class="form-group"><button type="submit" id="auth-button" class="neon-button">Войти</button></div>
             </form>
@@ -67,8 +66,6 @@
         const toggleLink = document.getElementById('toggle-link');
         const loginGroup = document.getElementById('login-group');
         const toggleSection = document.getElementById('toggle-section');
-        const authLoginInput = document.getElementById('auth-login'); // Получаем поле логина
-        const neonLogo = document.getElementById('neon-logo');
         
         let isLoginMode = true;
 
@@ -100,16 +97,12 @@
                 toggleLink.textContent = 'Зарегистрируйтесь!';
                 document.getElementById('toggle-text').textContent = 'Ещё нет аккаунта в Neon?';
                 loginGroup.classList.add('hidden');
-                // Убираем required при входе
-                authLoginInput.removeAttribute('required');
             } else {
                 formHeading.textContent = 'Регистрация';
                 authButton.textContent = 'Зарегистрироваться';
                 toggleLink.textContent = 'Войти!';
                 document.getElementById('toggle-text').textContent = 'Уже есть аккаунт?';
                 loginGroup.classList.remove('hidden');
-                // Добавляем required при регистрации
-                authLoginInput.setAttribute('required', 'required');
             }
         }
         
@@ -134,11 +127,6 @@
             const params = new URLSearchParams(window.location.hash.substring(1));
             const accessToken = params.get('access_token');
             const type = params.get('type');
-            
-            // Клик по логотипу перенаправляет на index.html
-            neonLogo.addEventListener('click', () => {
-                window.location.href = 'index.html';
-            });
             
             // Если мы получили токен после перехода по ссылке из почты
             if (accessToken && type === 'signup') {
@@ -192,12 +180,12 @@
                     console.log("Вход успешен! Перенаправление...");
                     window.location.href = 'index.html';
                 } else {
-                    const errorMsg = data.error_description || data.msg || data.error || 'Неверный email или пароль.';
+                    const errorMsg = data.error_description || data.msg || 'Неверный email или пароль.';
                     alert("Ошибка входа: " + errorMsg);
                 }
             } catch (error) {
                 console.error("КРИТИЧЕСКАЯ ОШИБКА: Сбой при выполнении fetch-запроса.", error);
-                alert("Ошибка сети. Проверьте консоль браузера (F12) и настройки CSP.");
+                alert("Ошибка сети. Проверьте консоль браузера (F12).");
             } finally {
                 authButton.disabled = false;
             }
@@ -222,6 +210,7 @@
 
                 if (response.ok) {
                     showCheckEmailView(email);
+                    // УДАЛЕНО: alert() с просьбой проверить почту
                 } else {
                     alert("Ошибка регистрации: " + (data.msg || data.error));
                 }

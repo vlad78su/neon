@@ -16,32 +16,27 @@
 <body>
     <div class="content-container">
         <h1 class="app-header-title">новая заметка</h1>
-        <div class="neon-logo" id="neon-logo">Ne</div>
+        <div class="neon-logo">Ne</div>
 
         <a href="#" id="save-note-button" class="save-button">Сохранить</a>
+
+        <div class="note-editor-title-panel">
+            <input type="text" id="note-title" placeholder="заголовок заметки">
+        </div>
+
+        <div class="panel note-editor-panel">
+            <textarea id="note-content" placeholder="текст заметки"></textarea>
+        </div>
+        
     </div>
 
-    <div class="note-editor-title-panel">
-        <input type="text" id="note-title" placeholder="заголовок заметки">
-    </div>
-
-    <div class="panel note-editor-panel">
-        <textarea id="note-content" placeholder="текст заметки"></textarea>
-    </div>
-    
     <script>
         // --- КОНФИГУРАЦИЯ ---
         const SUPABASE_URL = 'https://zamhgvmayjcyvdkuauxe.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphbWhndm1heWpjeXZka3VhdXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4Nzc4ODksImV4cCI6MjA3OTQ1Mzg4OX0.8wEp6oRH7XcZtc-4kZaIBNZWnLfmUEe23BNpaFoi7_o';
         
         document.getElementById('save-note-button').addEventListener('click', saveNote);
-        const neonLogo = document.getElementById('neon-logo');
         
-        // Клик по логотипу перенаправляет на index.html
-        neonLogo.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-
         const token = localStorage.getItem('neon_token');
         if (!token) {
             alert('Для создания заметки необходимо войти.');
